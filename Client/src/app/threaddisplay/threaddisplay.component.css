@@ -1,5 +1,9 @@
 .thread-display{
-    width: 70%;
+    width: auto;
     display: flex;
     flex-direction: column;
+    padding: 10px;
+    border-style: solid;
+    border-color: whitesmoke;
+    background-color: rgb(16, 16, 16);
 }

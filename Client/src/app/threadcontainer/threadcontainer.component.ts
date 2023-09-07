@@ -85,7 +85,7 @@ export class ThreadcontainerComponent implements OnInit, AfterViewInit {
     this.loadSubPosts();
   }
   getPadding() {
-    let padding: string = this.threadIndex * 50 + 'px';
+    let padding: string = this.threadIndex * 15 + 'px';
     return padding;
   }
 }

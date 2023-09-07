@@ -1,0 +1,27 @@
+.body-comp{
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgb(38, 36, 36);
+}
+.form-container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    width: 20%;
+    height: 400px;
+}
+.form{
+    display: flex;
+    flex-direction: column;
+}
+.form-element{
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+.reg-link{
+    text-align: center;
+    color: whitesmoke;
+}

@@ -19,7 +19,7 @@ export class RegisterComponent implements OnInit {
 
   register(){
     this.accountService.register(this.model).subscribe({
-      next: _ => this.router.navigateByUrl('/members'),
+      next: _ => this.router.navigateByUrl('/'),
       error: error => {
         this.toastr.error(error.error);
         console.log(error);
@@ -28,7 +28,7 @@ export class RegisterComponent implements OnInit {
   }
 
   cancel(){
-    this.cancelRegister.emit(false);
+    this.router.navigateByUrl('');
   }
 
 }

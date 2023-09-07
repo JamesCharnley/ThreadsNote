@@ -1,5 +1,5 @@
 .thread-container{
-    width: 95%;
+    width: auto;
     display: flex;
     flex-direction: column;
 }

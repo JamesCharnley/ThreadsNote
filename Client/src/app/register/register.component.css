@@ -1,0 +1,25 @@
+.body-comp{
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgb(38, 36, 36);
+}
+.form-container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    width: 20%;
+    height: 400px;
+}
+.form{
+    display: flex;
+    flex-direction: column;
+}
+.form-element{
+    margin-bottom: 20px;
+}
+.cancel-link {
+    color: whitesmoke;
+}

@@ -1,0 +1,10 @@
+.post{
+    width: auto;
+    border-style: solid;
+    border-color: whitesmoke;
+    border-radius: 5px;
+}
+img{
+    height: auto;
+    max-width: 100%;
+}

@@ -12,7 +12,9 @@ import { LoginComponent } from './login/login.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrModule } from 'ngx-toastr';
 import { FormsModule } from '@angular/forms';
-
+import { HomeComponent } from './home/home.component';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import { UserinterfaceComponent } from './userinterface/userinterface.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -21,12 +23,15 @@ import { FormsModule } from '@angular/forms';
     PostComponent,
     ThreadcontainerComponent,
     RegisterComponent,
-    LoginComponent
+    LoginComponent,
+    HomeComponent,
+    UserinterfaceComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
+    BrowserAnimationsModule,
     NgbModule,
     FormsModule,
     ToastrModule.forRoot()

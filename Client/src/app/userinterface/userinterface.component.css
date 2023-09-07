@@ -1,0 +1,9 @@
+.comp-body{
+    min-height: 100vh;
+    background-color: black;
+}
+.thread-display-body{
+    display:flex;
+    flex-direction: row;
+    gap: 20px;
+}
