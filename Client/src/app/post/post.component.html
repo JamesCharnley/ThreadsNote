@@ -2,5 +2,5 @@
     <h3 class="post-title">{{post?.title}}</h3>
     <p class="post-paragraph">{{post?.text}}</p>
     <img src="{{post?.imageUrl}}" alt="Girl in a jacket" class="post-image">
-    <button *ngIf="post?.subPosts != 0" (click)="loadSubPosts()" type="button">+{{post?.subPosts}} posts</button>
+    <button *ngIf="post?.subPosts != 0" (click)="expandTogglePressed()" type="button">+{{post?.subPosts}} posts</button>
 </div>

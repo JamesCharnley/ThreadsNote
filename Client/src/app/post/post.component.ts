@@ -8,7 +8,7 @@ import { PostDB } from 'src/app/_testing/postDB';
 })
 export class PostComponent implements OnInit {
   @Input() post: Post | undefined;
-  @Output("parentFun") parentFun: EventEmitter<any> = new EventEmitter();
+  @Output("expandToggle") expandToggle: EventEmitter<any> = new EventEmitter();
   postdb: PostDB;
   posts: Post[] = [];
   constructor() { 
@@ -20,10 +20,10 @@ export class PostComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  loadSubPosts()
+  expandTogglePressed()
   {
     console.log("clicked");
-    this.parentFun.emit();
+    this.expandToggle.emit();
   }
   
 

@@ -11,6 +11,8 @@ export class ThreadcontainerComponent implements OnInit, AfterViewInit {
   @Input() post: Post | undefined;
   @ViewChild('container', {read: ViewContainerRef}) container: ViewContainerRef | undefined;
 
+  isExpaned: boolean = false;
+
   postdb: PostDB;
   posts: Post[] = [];
 
@@ -52,7 +54,9 @@ export class ThreadcontainerComponent implements OnInit, AfterViewInit {
       }
     });
   }
-
+  removeSubposts(){
+    this.container?.clear();
+  }
   addComponent(post: Post, incrementThreadIndex: boolean) {
     // Create component dynamically inside the ng-template
     //const componentFactory = this.componentFactoryResolver.resolveComponentFactory(ThreadcontainerComponent);
@@ -62,8 +66,6 @@ export class ThreadcontainerComponent implements OnInit, AfterViewInit {
       console.log("hello");
       if(component)
       {
-        console.log("hello fdfd");
-        console.log(post.title);
         component.instance.post = post;
         if(incrementThreadIndex) {
           component.instance.threadIndex = this.threadIndex + 1;
@@ -80,9 +82,18 @@ export class ThreadcontainerComponent implements OnInit, AfterViewInit {
     // Push the component so that we can keep track of which components are created
     //this.components.push(component);
   }
-  parentFun(){
+  expandToggle(){
     console.log("parentfun");
-    this.loadSubPosts();
+    if(this.isExpaned){
+      // remove subposts
+      this.removeSubposts();
+      this.isExpaned = false;
+    }
+    else
+    {
+      this.loadSubPosts();
+      this.isExpaned = true;
+    }
   }
   getPadding() {
     let padding: string = this.threadIndex * 15 + 'px';
