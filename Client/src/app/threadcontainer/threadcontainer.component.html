@@ -1,3 +1,4 @@
-<div #container class="thread-container" [ngStyle]="{'padding-left': getPadding()}">
+<div class="thread-container" [ngStyle]="{'width': getWidth()}">
     <app-post *ngIf="post" [post]="post" (parentFun)="parentFun()"></app-post>
+    <ng-template #container ></ng-template>
 </div>

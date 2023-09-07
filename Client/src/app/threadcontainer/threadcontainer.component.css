@@ -1,5 +1,10 @@
 .thread-container{
-    width: auto;
     display: flex;
     flex-direction: column;
+    margin-left: auto;
+    justify-content: center;
+    border-left-style: dashed;
+    border-left-color: whitesmoke;
+    border-width: 1px;
+    background-color: transparent;
 }

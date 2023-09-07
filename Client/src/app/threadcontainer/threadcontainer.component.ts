@@ -88,4 +88,11 @@ export class ThreadcontainerComponent implements OnInit, AfterViewInit {
     let padding: string = this.threadIndex * 15 + 'px';
     return padding;
   }
+  getWidth() {
+    let width : string = '100%';
+    if(this.threadIndex > 0) {
+      width = '95%';
+    }
+    return width;
+  }
 }
