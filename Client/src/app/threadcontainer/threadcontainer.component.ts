@@ -8,18 +8,20 @@ import { PostDB } from '../_testing/postDB';
   styleUrls: ['./threadcontainer.component.css']
 })
 export class ThreadcontainerComponent implements OnInit, AfterViewInit {
+
   @Input() post: Post | undefined;
   @ViewChild('container', {read: ViewContainerRef}) container: ViewContainerRef | undefined;
 
   isExpaned: boolean = false;
 
-  postdb: PostDB;
-  posts: Post[] = [];
+  postdb: PostDB; // temp fake db
+  posts: Post[] = []; // temp fake db
 
-  threadIndex: number = 0;
+  threadIndex: number = 0; // TODO: change to bool isSubPost
+
   constructor() {
-    this.postdb = new PostDB();
-    this.posts = this.postdb.posts;
+    this.postdb = new PostDB(); // temp fake db
+    this.posts = this.postdb.posts; // temp fake db
   }
   ngAfterViewInit(): void {
     if(this.post == undefined)
@@ -27,6 +29,7 @@ export class ThreadcontainerComponent implements OnInit, AfterViewInit {
       this.loadPosts();
     }
   }
+
   ngAfterContentInit(): void {
     
   }
@@ -50,7 +53,6 @@ export class ThreadcontainerComponent implements OnInit, AfterViewInit {
         if(post.ownerPost == this.post?.id) {
           this.addComponent(post, true);
         }
-      
       }
     });
   }
@@ -58,12 +60,11 @@ export class ThreadcontainerComponent implements OnInit, AfterViewInit {
     this.container?.clear();
   }
   addComponent(post: Post, incrementThreadIndex: boolean) {
-    // Create component dynamically inside the ng-template
-    //const componentFactory = this.componentFactoryResolver.resolveComponentFactory(ThreadcontainerComponent);
-    //const component: ComponentRef<ThreadcontainerComponent> | undefined = this.container?.createComponent(componentFactory);
+
     if(this.container) {
+
       const component = this.container.createComponent(ThreadcontainerComponent);
-      console.log("hello");
+
       if(component)
       {
         component.instance.post = post;
@@ -74,16 +75,10 @@ export class ThreadcontainerComponent implements OnInit, AfterViewInit {
         component.changeDetectorRef.detectChanges();
       }
     }
-    else
-    {
-      console.log("this.container is undefined");
-    }
-    
-    // Push the component so that we can keep track of which components are created
-    //this.components.push(component);
   }
+
   expandToggle(){
-    console.log("parentfun");
+
     if(this.isExpaned){
       // remove subposts
       this.removeSubposts();
@@ -91,14 +86,17 @@ export class ThreadcontainerComponent implements OnInit, AfterViewInit {
     }
     else
     {
+      // add subposts
       this.loadSubPosts();
       this.isExpaned = true;
     }
   }
+
   getPadding() {
     let padding: string = this.threadIndex * 15 + 'px';
     return padding;
   }
+
   getWidth() {
     let width : string = '100%';
     if(this.threadIndex > 0) {
@@ -106,4 +104,5 @@ export class ThreadcontainerComponent implements OnInit, AfterViewInit {
     }
     return width;
   }
+  
 }

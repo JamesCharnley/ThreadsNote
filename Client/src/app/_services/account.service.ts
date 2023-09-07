@@ -8,34 +8,40 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root'
 })
 export class AccountService {
-  baseUrl = 'http://localhost:5085/'
+  baseUrl = 'http://localhost:5085/';
 
   private currentUserSource = new BehaviorSubject<User | null>(null);
   currentUser$ = this.currentUserSource.asObservable();
   
   constructor(private http: HttpClient) { }
 
+  // login call
   login(model: any){
     return this.http.post<User>(this.baseUrl + 'account/login', model).pipe(
       map((response: User) => {
         const user = response;
-        if(user){
-          localStorage.setItem('user', JSON.stringify(user));
-          this.currentUserSource.next(user);
+        if(user){ // login success?
+          this.persistLogin(user);
         }
       })
     )
   }
 
+  // register user call
   register(model: any){
     return this.http.post<User>(this.baseUrl + 'account/register', model).pipe(
       map(user => {
-        if(user){
-          localStorage.setItem('user', JSON.stringify(user));
-          this.currentUserSource.next(user);
+        if(user){ // register success?
+          this.persistLogin(user);
         }
       })
     )
+  }
+
+  persistLogin(user: User)
+  {
+    localStorage.setItem('user', JSON.stringify(user));
+    this.currentUserSource.next(user);
   }
 
   setCurrentUser(user: User){

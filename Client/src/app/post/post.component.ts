@@ -7,24 +7,24 @@ import { PostDB } from 'src/app/_testing/postDB';
   styleUrls: ['./post.component.css']
 })
 export class PostComponent implements OnInit {
+  
   @Input() post: Post | undefined;
   @Output("expandToggle") expandToggle: EventEmitter<any> = new EventEmitter();
-  postdb: PostDB;
-  posts: Post[] = [];
-  constructor() { 
-    this.postdb = new PostDB();
-    this.posts = this.postdb.posts;
-  }
 
+  postdb: PostDB; // temp fake db
+  posts: Post[] = []; // temp fake db
+
+  constructor() { 
+    this.postdb = new PostDB(); // temp fake db
+    this.posts = this.postdb.posts; // temp fake db
+  }
 
   ngOnInit(): void {
   }
 
-  expandTogglePressed()
+  expandTogglePressed() // user clicked expand post to open sub posts
   {
-    console.log("clicked");
-    this.expandToggle.emit();
+    this.expandToggle.emit(); // emit function call to parent (ThreadContainerComponent)
   }
-  
 
 }
