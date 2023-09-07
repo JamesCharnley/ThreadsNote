@@ -1,9 +1,5 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
-using System.Threading.Tasks;
 using API.Data;
 using API.DTOs;
 using API.Entities;
@@ -44,7 +40,7 @@ namespace API.Controllers
             };
         }
 
-        [HttpPost("login")]
+        [HttpPost("login")] // /account/login
         public async Task<ActionResult<UserDto>> Login(LoginDto loginDto)
         {
             var user = await _context.Users.FirstOrDefaultAsync(user => user.UserName == loginDto.Username);
