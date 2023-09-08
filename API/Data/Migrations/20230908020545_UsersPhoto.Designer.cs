@@ -3,6 +3,7 @@ using System;
 using API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20230908020545_UsersPhoto")]
+    partial class UsersPhoto
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.10");
@@ -43,10 +46,10 @@ namespace API.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("AppUserId")
+                    b.Property<int>("AppUserId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("PostId")
+                    b.Property<int?>("PostId")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("PublicId")
@@ -70,17 +73,11 @@ namespace API.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("AppUserId")
+                    b.Property<int?>("AppUserId")
                         .HasColumnType("INTEGER");
-
-                    b.Property<string>("ContentText")
-                        .HasColumnType("TEXT");
 
                     b.Property<int>("OwnerPostId")
                         .HasColumnType("INTEGER");
-
-                    b.Property<string>("Title")
-                        .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
@@ -91,28 +88,24 @@ namespace API.Data.Migrations
 
             modelBuilder.Entity("API.Entities.Photo", b =>
                 {
-                    b.HasOne("API.Entities.AppUser", null)
-                        .WithMany("Photos")
-                        .HasForeignKey("AppUserId");
-
-                    b.HasOne("API.Entities.Post", "Post")
-                        .WithMany("Photos")
-                        .HasForeignKey("PostId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Post");
-                });
-
-            modelBuilder.Entity("API.Entities.Post", b =>
-                {
                     b.HasOne("API.Entities.AppUser", "AppUser")
-                        .WithMany("Posts")
+                        .WithMany("Photos")
                         .HasForeignKey("AppUserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("API.Entities.Post", null)
+                        .WithMany("Photos")
+                        .HasForeignKey("PostId");
+
                     b.Navigation("AppUser");
+                });
+
+            modelBuilder.Entity("API.Entities.Post", b =>
+                {
+                    b.HasOne("API.Entities.AppUser", null)
+                        .WithMany("Posts")
+                        .HasForeignKey("AppUserId");
                 });
 
             modelBuilder.Entity("API.Entities.AppUser", b =>
