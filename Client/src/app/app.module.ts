@@ -15,6 +15,8 @@ import { FormsModule } from '@angular/forms';
 import { HomeComponent } from './home/home.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { UserinterfaceComponent } from './userinterface/userinterface.component';
+import { CreatePostComponent } from './create-post/create-post.component';
+import { FileUploadModule } from 'ng2-file-upload';
 @NgModule({
   declarations: [
     AppComponent,
@@ -25,7 +27,8 @@ import { UserinterfaceComponent } from './userinterface/userinterface.component'
     RegisterComponent,
     LoginComponent,
     HomeComponent,
-    UserinterfaceComponent
+    UserinterfaceComponent,
+    CreatePostComponent
   ],
   imports: [
     BrowserModule,
@@ -34,7 +37,8 @@ import { UserinterfaceComponent } from './userinterface/userinterface.component'
     BrowserAnimationsModule,
     NgbModule,
     FormsModule,
-    ToastrModule.forRoot()
+    ToastrModule.forRoot(),
+    FileUploadModule
   ],
   providers: [],
   bootstrap: [AppComponent]

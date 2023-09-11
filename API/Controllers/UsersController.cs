@@ -8,6 +8,7 @@ using API.Entities;
 using API.Extensions;
 using API.Interfaces;
 using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -27,20 +28,12 @@ namespace API.Controllers
             _context = context;
         }
 
-        [HttpGet("thread/{postId}")]
-        public async Task<ActionResult<IEnumerable<Post>>> GetThread(int postId)
+        [HttpGet("threads")]
+        public async Task<UserDto> GetThreads()
         {
             var user = await _userRepository.GetUserByUsernameAsync(User.GetUsername());
-            if(user == null) {return NotFound();}
-            ThreadDto thread = new ThreadDto{
-                Posts = user.Posts.Where(x => x.OwnerPostId == postId).ToList()
-            };
-            for(int i = 0; i < thread.Posts.Count; i++)
-            {
-                thread.Posts[i].Photos = user.Photos.Where(x => x.PostId == thread.Posts[i].Id).ToList();
-            }
-
-            return thread.Posts;
+            return await _context.Users.Where(x => x.UserName == user.UserName).ProjectTo<UserDto>(_mapper.ConfigurationProvider).SingleOrDefaultAsync();
+            
         }
         [HttpPost("add-post")]
         public async Task<ActionResult<AddPostDto>> AddPost(AddPostDto postDto)

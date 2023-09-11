@@ -1,4 +1,5 @@
 using System.Text;
+using System.Text.Json.Serialization;
 using API.Data;
 using API.Helpers;
 using API.Interfaces;
@@ -10,7 +11,10 @@ using Microsoft.IdentityModel.Tokens;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddControllers();
+builder.Services.AddControllers().AddJsonOptions(options =>
+        {
+            options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+        });
 builder.Services.AddDbContext<DataContext>(opt => 
 {
     opt.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection"));
