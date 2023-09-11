@@ -1,5 +1,5 @@
 export interface PostForm {
     title: string,
-    text: string,
+    content: string,
     ownerPost: number | undefined
 }

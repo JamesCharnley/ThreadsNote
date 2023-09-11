@@ -36,7 +36,7 @@ namespace API.Controllers
             
         }
         [HttpPost("add-post")]
-        public async Task<ActionResult<AddPostDto>> AddPost(AddPostDto postDto)
+        public async Task<ActionResult<int>> AddPost(AddPostDto postDto)
         {
             var user = await _userRepository.GetUserByUsernameAsync(User.GetUsername());
 
@@ -49,7 +49,10 @@ namespace API.Controllers
             };
             user.Posts.Add(newPost);
 
-            if(await _userRepository.SaveAllAsync()) return postDto;
+            if(await _userRepository.SaveAllAsync())
+            {
+                return user.Posts.Last().Id;
+            }
 
             return BadRequest("Problem adding post");
         }

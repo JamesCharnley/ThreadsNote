@@ -5,6 +5,7 @@ import { environment } from 'src/environments/environment';
 import { User } from '../_models/user';
 import { AccountService } from '../_services/account.service';
 import { take } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-create-post',
@@ -12,12 +13,14 @@ import { take } from 'rxjs';
   styleUrls: ['./create-post.component.css']
 })
 export class CreatePostComponent implements OnInit {
-
+  model: any = {};
   uploader: FileUploader | undefined;
   hasBaseDropZoneOver = false;
   baseUrl = 'http://localhost:5085/';
   user: User | undefined;
-  constructor(private accountService: AccountService) { 
+  postId: number | undefined;
+  
+  constructor(private accountService: AccountService, private http: HttpClient) { 
     this.accountService.currentUser$.pipe(take(1)).subscribe({
       next: user => {
         if(user) this.user = user
@@ -26,6 +29,7 @@ export class CreatePostComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.model.ownerPost = 0;
     this.initializeUploader();
   }
 
@@ -50,9 +54,31 @@ export class CreatePostComponent implements OnInit {
 
     this.uploader.onSuccessItem = (item, response, status, headers) => {
       if(response) {
-        console.log("Success"); // we may want to change this to recieve post
+        console.log("Images uploaded: Post upload completed successfully"); // we may want to change this to recieve post
       }
     }
+  }
+
+  submitPost() {
+    const headers = { 'Authorization': 'Bearer ' + this.user?.token};
+    return this.http.post<number>(this.baseUrl + 'users/add-post', this.model, {headers}).pipe().subscribe({
+      next: res => this.uploadImages(res),
+      error: err => console.log(err)
+    })
+    //this.uploader?.uploadAll();
+  }
+  uploadImages(postId: number) {
+    if(this.uploader?.queue) {
+      if(this.uploader.queue.length < 1) {
+        console.log("No images in queue: Post upload completed successfully");
+        return;
+      }
+    }
+    this.postId = postId;
+    this.uploader?.setOptions({
+      url: this.baseUrl + 'users/add-photo/' + postId
+    });
+    this.uploader?.uploadAll();
   }
 
 }
