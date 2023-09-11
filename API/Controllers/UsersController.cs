@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata.Ecma335;
 using System.Threading.Tasks;
 using API.Data;
+using API.Data.Migrations;
 using API.DTOs;
 using API.Entities;
 using API.Extensions;
@@ -29,11 +31,18 @@ namespace API.Controllers
         }
 
         [HttpGet("threads")]
-        public async Task<UserDto> GetThreads()
+        public async Task<ActionResult<IEnumerable<PostDto>>> GetThreads()
         {
             var user = await _userRepository.GetUserByUsernameAsync(User.GetUsername());
-            return await _context.Users.Where(x => x.UserName == user.UserName).ProjectTo<UserDto>(_mapper.ConfigurationProvider).SingleOrDefaultAsync();
-            
+            if(user == null) {return BadRequest("user is null");}
+            var userWithPosts = await _context.Users.Include(p => p.Posts).SingleOrDefaultAsync(x => x.UserName == user.UserName);
+            List<Post> posts = userWithPosts.Posts.Where(x => x.OwnerPostId == 0).ToList();
+            if(posts.Count == 0) { return BadRequest("No posts found");}
+            List<PostDto> dtos = new();
+            foreach(Post p in posts){
+                dtos.Add(_mapper.Map<PostDto>(p));
+            }         
+            return dtos;
         }
         [HttpPost("add-post")]
         public async Task<ActionResult<int>> AddPost(AddPostDto postDto)
