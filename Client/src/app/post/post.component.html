@@ -1,6 +1,8 @@
 <div class="post">
     <h3 class="post-title">{{post?.title}}</h3>
-    <p class="post-paragraph">{{post?.text}}</p>
-    <img src="{{post?.imageUrl}}" alt="Girl in a jacket" class="post-image">
-    <button *ngIf="post?.subPosts != 0" (click)="expandTogglePressed()" type="button">+{{post?.subPosts}} posts</button>
+    <p class="post-paragraph">{{post?.contentText}}</p>
+    <div *ngFor="let image of post?.photos" class="image-container">
+        <img src="{{image.url}}" alt="Girl in a jacket" class="post-image">
+    </div>
+    <button *ngIf="threadLength != 0" (click)="expandTogglePressed()" type="button">+{{threadLength}} posts</button>
 </div>

@@ -1,4 +1,4 @@
 <div class="thread-container" [ngStyle]="{'width': getWidth()}">
-    <app-post *ngIf="post" [post]="post" (expandToggle)="expandToggle()"></app-post>
+    <app-post *ngIf="post" [post]="post" [threadLength]="threadLength" (expandToggle)="expandToggle()"></app-post>
     <ng-template #container ></ng-template>
 </div>

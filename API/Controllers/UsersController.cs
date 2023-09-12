@@ -30,20 +30,34 @@ namespace API.Controllers
             _context = context;
         }
 
-        [HttpGet("threads")]
-        public async Task<ActionResult<IEnumerable<PostDto>>> GetThreads()
+        [HttpGet("threads/{id}")]
+        public async Task<ActionResult<IEnumerable<PostDto>>> GetThreads(int id)
         {
             var user = await _userRepository.GetUserByUsernameAsync(User.GetUsername());
             if(user == null) {return BadRequest("user is null");}
+
             var userWithPosts = await _context.Users.Include(p => p.Posts).SingleOrDefaultAsync(x => x.UserName == user.UserName);
-            List<Post> posts = userWithPosts.Posts.Where(x => x.OwnerPostId == 0).ToList();
+            
+            List<Post> posts = userWithPosts.Posts.Where(x => x.OwnerPostId == id).ToList();
             if(posts.Count == 0) { return BadRequest("No posts found");}
+            
             List<PostDto> dtos = new();
             foreach(Post p in posts){
                 dtos.Add(_mapper.Map<PostDto>(p));
             }         
             return dtos;
         }
+
+        [HttpGet("thread-length/{id}")]
+        public async Task<ActionResult<int>> GetThreadLength(int id)
+        {
+            var user = await _userRepository.GetUserByUsernameAsync(User.GetUsername());
+            if(user == null) {return BadRequest("user is null");}
+            var userWithPosts = await _context.Users.Include(p => p.Posts).SingleOrDefaultAsync(x => x.UserName == user.UserName);
+            List<Post> posts = userWithPosts.Posts.Where(x => x.OwnerPostId == id).ToList();
+            return posts.Count;
+        }
+        
         [HttpPost("add-post")]
         public async Task<ActionResult<int>> AddPost(AddPostDto postDto)
         {

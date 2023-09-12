@@ -1,6 +1,9 @@
 import { Component, Input, OnInit, ViewChild, ViewContainerRef, ComponentRef, AfterContentInit, AfterViewInit} from '@angular/core';
 import { Post } from 'src/app/_models/post';
-import { PostDB } from '../_testing/postDB';
+import { HttpClient } from '@angular/common/http';
+import { AccountService } from '../_services/account.service';
+import { take } from 'rxjs';
+import { User } from '../_models/user';
 
 @Component({
   selector: 'app-threadcontainer',
@@ -12,22 +15,42 @@ export class ThreadcontainerComponent implements OnInit, AfterViewInit {
   @Input() post: Post | undefined;
   @ViewChild('container', {read: ViewContainerRef}) container: ViewContainerRef | undefined;
 
+  threadLength: number = 0;
   isExpaned: boolean = false;
 
-  postdb: PostDB; // temp fake db
   posts: Post[] = []; // temp fake db
+  subPosts: Post[] = [];
 
   threadIndex: number = 0; // TODO: change to bool isSubPost
 
-  constructor() {
-    this.postdb = new PostDB(); // temp fake db
-    this.posts = this.postdb.posts; // temp fake db
+  user: User | undefined;
+  
+  constructor(private accountService: AccountService, private http: HttpClient) { 
+    this.accountService.currentUser$.pipe(take(1)).subscribe({
+      next: user => {
+        if(user) this.user = user
+      }
+    })
   }
+
   ngAfterViewInit(): void {
     if(this.post == undefined)
     {
-      this.loadPosts();
+      this.getThread(0);
     }
+    else{
+      this.getThreadLength();
+    }
+  }
+
+  getThreadLength() {
+    const headers = { 'Authorization': 'Bearer ' + this.user?.token};
+    return this.http.get<number>('http://localhost:5085/users/thread-length/' + this.post?.id, {headers}).subscribe({
+      next: length => {
+        this.threadLength = length;
+      },
+      error: err => console.log(err)
+    })
   }
 
   ngAfterContentInit(): void {
@@ -37,30 +60,43 @@ export class ThreadcontainerComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
     
   }
+  getThread(id: number) {
+    const headers = { 'Authorization': 'Bearer ' + this.user?.token};
+    return this.http.get<Post[]>('http://localhost:5085/users/threads/' + id, {headers}).subscribe({
+      next: posts => {
+        if(id == 0){
+          this.posts = posts;
+          this.loadPosts();
+        }else{
+          this.subPosts = posts;
+          this.loadSubPosts();
+        }
+        
+      },
+      error: err => console.log(err)
+    })
+  }
 
   loadPosts()
   {
     this.posts.forEach(post => {
-      if(!post.ownerPost) {
-        this.addComponent(post, false);
-      }
+      this.addComponent(post, false);
     });
   }
   
   loadSubPosts() {
-    this.posts.forEach(post => {
-      if(post.ownerPost) {
-        if(post.ownerPost == this.post?.id) {
-          this.addComponent(post, true);
-        }
-      }
+    this.subPosts.forEach(post => {
+      this.addComponent(post, true);
     });
   }
   removeSubposts(){
     this.container?.clear();
   }
   addComponent(post: Post, incrementThreadIndex: boolean) {
-
+    console.log("AddComponent");
+    if(post.ownerPostId){
+      console.log("ownerPost" + post.ownerPostId);
+    }
     if(this.container) {
 
       const component = this.container.createComponent(ThreadcontainerComponent);
@@ -78,8 +114,9 @@ export class ThreadcontainerComponent implements OnInit, AfterViewInit {
   }
 
   expandToggle(){
-
+    console.log("ExpandToggle");
     if(this.isExpaned){
+      console.log("IsExpanded");
       // remove subposts
       this.removeSubposts();
       this.isExpaned = false;
@@ -87,8 +124,13 @@ export class ThreadcontainerComponent implements OnInit, AfterViewInit {
     else
     {
       // add subposts
-      this.loadSubPosts();
-      this.isExpaned = true;
+      if(this.post?.id)
+      {
+        console.log("Has owner post");
+        this.getThread(this.post?.id);
+        this.isExpaned = true;
+      }     
+      
     }
   }
 

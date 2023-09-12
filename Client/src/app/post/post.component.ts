@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import { Post } from 'src/app/_models/post';
-import { PostDB } from 'src/app/_testing/postDB';
+
 @Component({
   selector: 'app-post',
   templateUrl: './post.component.html',
@@ -9,14 +9,11 @@ import { PostDB } from 'src/app/_testing/postDB';
 export class PostComponent implements OnInit {
   
   @Input() post: Post | undefined;
+  @Input() threadLength: number | undefined;
   @Output("expandToggle") expandToggle: EventEmitter<any> = new EventEmitter();
 
-  postdb: PostDB; // temp fake db
-  posts: Post[] = []; // temp fake db
-
   constructor() { 
-    this.postdb = new PostDB(); // temp fake db
-    this.posts = this.postdb.posts; // temp fake db
+
   }
 
   ngOnInit(): void {
