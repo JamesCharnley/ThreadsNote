@@ -3,5 +3,5 @@
     <ng-template #container ></ng-template>
 </div>
 <div *ngIf="createPostActive" class="add-post-container">
-    <app-create-post *ngIf="post" [post]="post" (cancelCreatePost)="cancelCreatePost()"></app-create-post>
+    <app-create-post *ngIf="post" [post]="post" (cancelCreatePost)="cancelCreatePost()" (newPostCreated)="newPostCreated()"></app-create-post>
 </div>

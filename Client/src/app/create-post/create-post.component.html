@@ -6,7 +6,7 @@
         <input type="text" class="form-control" name="title" [(ngModel)]="model.title" placeholder="title..">
     </div>
     <div class="mb-3 form-element">
-        <textarea type="text" class="form-control" name="content" [(ngModel)]="model.content" placeholder="text..."></textarea>
+        <textarea type="text" class="content-text" name="content" [(ngModel)]="model.content" placeholder="text..."></textarea>
     </div>
     <div class="img-upload-container">
         <input type="file" id="file-button" ng2FileSelect [uploader]="uploader" multiple  hidden/>

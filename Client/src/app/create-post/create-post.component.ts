@@ -16,6 +16,8 @@ import { Post } from '../_models/post';
 export class CreatePostComponent implements OnInit {
   @Input() post: Post | undefined;
   @Output("cancelCreatePost") cancelCreatePost: EventEmitter<any> = new EventEmitter();
+  @Output("newPostCreated") newPostCreated: EventEmitter<any> = new EventEmitter();
+
   model: any = {};
   uploader: FileUploader | undefined;
   hasBaseDropZoneOver = false;
@@ -67,6 +69,7 @@ export class CreatePostComponent implements OnInit {
         this.totalImages -= 1;
         if(this.totalImages == 0) {
           console.log("All images uploaded. Post completed successfully");
+          this.displayNewPost();
         }
         else
         {
@@ -90,6 +93,7 @@ export class CreatePostComponent implements OnInit {
       this.totalImages = this.uploader.queue.length;
       if(this.totalImages < 1) {
         console.log("No images in queue: Post upload completed successfully");
+        this.displayNewPost();
         return;
       }
     }
@@ -104,4 +108,8 @@ export class CreatePostComponent implements OnInit {
     this.cancelCreatePost.emit();
   }
 
+  displayNewPost(){
+    this.newPostCreated.emit();
+    this.cancelAddPost();
+  }
 }

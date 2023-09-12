@@ -142,6 +142,15 @@ export class ThreadcontainerComponent implements OnInit, AfterViewInit {
     this.createPostActive = false;
   }
 
+  newPostCreated(){
+    if(this.isExpaned){
+      this.removeSubposts();
+      this.isExpaned = false;
+    }
+    this.getThreadLength();
+    this.expandToggle();
+  }
+
   getPadding() {
     let padding: string = this.threadIndex * 15 + 'px';
     return padding;
