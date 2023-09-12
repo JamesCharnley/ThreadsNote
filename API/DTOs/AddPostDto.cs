@@ -7,7 +7,7 @@ namespace API.DTOs
 {
     public class AddPostDto
     {
-        public int Owner { get; set; }
+        public int OwnerPost { get; set; }
         public string Title { get; set; }
         public string Content { get; set; }
     }

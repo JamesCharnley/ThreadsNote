@@ -8,3 +8,12 @@
     border-width: 1px;
     background-color: transparent;
 }
+.add-post-container{
+    position: absolute;
+    width: 50vw;
+    height: 50vh;
+    margin: auto;
+    top: 25vh;
+    left: 25vw;
+
+}

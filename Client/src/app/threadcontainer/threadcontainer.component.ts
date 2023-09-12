@@ -24,6 +24,8 @@ export class ThreadcontainerComponent implements OnInit, AfterViewInit {
   threadIndex: number = 0; // TODO: change to bool isSubPost
 
   user: User | undefined;
+
+  createPostActive: boolean = false;
   
   constructor(private accountService: AccountService, private http: HttpClient) { 
     this.accountService.currentUser$.pipe(take(1)).subscribe({
@@ -132,6 +134,12 @@ export class ThreadcontainerComponent implements OnInit, AfterViewInit {
       }     
       
     }
+  }
+  createPost() {
+    this.createPostActive = true;
+  }
+  cancelCreatePost(){
+    this.createPostActive = false;
   }
 
   getPadding() {

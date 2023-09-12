@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { PostForm } from '../_models/postForm';
 import { FileUploader } from 'ng2-file-upload';
 import { environment } from 'src/environments/environment';
@@ -6,6 +6,7 @@ import { User } from '../_models/user';
 import { AccountService } from '../_services/account.service';
 import { take } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
+import { Post } from '../_models/post';
 
 @Component({
   selector: 'app-create-post',
@@ -13,6 +14,8 @@ import { HttpClient } from '@angular/common/http';
   styleUrls: ['./create-post.component.css']
 })
 export class CreatePostComponent implements OnInit {
+  @Input() post: Post | undefined;
+  @Output("cancelCreatePost") cancelCreatePost: EventEmitter<any> = new EventEmitter();
   model: any = {};
   uploader: FileUploader | undefined;
   hasBaseDropZoneOver = false;
@@ -29,7 +32,14 @@ export class CreatePostComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.model.ownerPost = 0;
+    if(this.post)
+    {
+      this.model.ownerPost = this.post.id;
+      console.log("post.id = " + this.post.id + " model.ownerPost = " + this.model.ownerPost);
+    }
+    else{
+      console.log("post undefined");
+    }
     this.initializeUploader();
   }
 
@@ -67,6 +77,7 @@ export class CreatePostComponent implements OnInit {
   }
 
   submitPost() {
+    console.log(this.model);
     const headers = { 'Authorization': 'Bearer ' + this.user?.token};
     return this.http.post<number>(this.baseUrl + 'users/add-post', this.model, {headers}).pipe().subscribe({
       next: res => this.uploadImages(res),
@@ -87,6 +98,10 @@ export class CreatePostComponent implements OnInit {
       url: this.baseUrl + 'users/add-photo/' + postId
     });
     this.uploader?.uploadAll();
+  }
+
+  cancelAddPost(){
+    this.cancelCreatePost.emit();
   }
 
 }

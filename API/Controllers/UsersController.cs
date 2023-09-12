@@ -40,7 +40,7 @@ namespace API.Controllers
             
             List<Post> posts = userWithPosts.Posts.Where(x => x.OwnerPostId == id).ToList();
             if(posts.Count == 0) { return BadRequest("No posts found");}
-            
+
             List<PostDto> dtos = new();
             foreach(Post p in posts){
                 dtos.Add(_mapper.Map<PostDto>(p));
@@ -66,7 +66,7 @@ namespace API.Controllers
             if(user == null) {return BadRequest("User null"); }
             Post newPost = new Post
             {
-                OwnerPostId = postDto.Owner,
+                OwnerPostId = postDto.OwnerPost,
                 Title = postDto.Title,
                 ContentText = postDto.Content
             };
