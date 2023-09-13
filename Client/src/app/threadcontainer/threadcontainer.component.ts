@@ -147,7 +147,10 @@ export class ThreadcontainerComponent implements OnInit, AfterViewInit {
       this.removeSubposts();
       this.isExpaned = false;
     }
-    this.getThreadLength();
+    if(this.post)
+    {
+      this.getThreadLength();
+    }
     this.expandToggle();
   }
 

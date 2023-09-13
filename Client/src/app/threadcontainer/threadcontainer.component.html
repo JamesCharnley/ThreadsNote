@@ -1,7 +1,11 @@
 <div class="thread-container" [ngStyle]="{'width': getWidth()}">
+    <div class="action-buttons">
+        <button id="add-post-button" (click)="createPost()" type="button"><i class="fa fa-plus" aria-hidden="true"></i></button>
+        <!--<label class="add-post-label" for="add-post-button"><i class="fa fa-plus" aria-hidden="true"></i></label>-->
+    </div>
     <app-post *ngIf="post" [post]="post" [threadLength]="threadLength" (expandToggle)="expandToggle()" (createPost)="createPost()"></app-post>
     <ng-template #container ></ng-template>
 </div>
 <div *ngIf="createPostActive" class="add-post-container">
-    <app-create-post *ngIf="post" [post]="post" (cancelCreatePost)="cancelCreatePost()" (newPostCreated)="newPostCreated()"></app-create-post>
+    <app-create-post [post]="post" (cancelCreatePost)="cancelCreatePost()" (newPostCreated)="newPostCreated()"></app-create-post>
 </div>

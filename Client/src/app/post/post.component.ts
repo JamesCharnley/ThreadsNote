@@ -1,5 +1,9 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import { Post } from 'src/app/_models/post';
+import { AccountService } from '../_services/account.service';
+import { User } from '../_models/user';
+import { take } from 'rxjs';
 
 @Component({
   selector: 'app-post',
@@ -14,8 +18,15 @@ export class PostComponent implements OnInit {
   @Output("createPost") createPost: EventEmitter<any> = new EventEmitter();
 
 
-  constructor() { 
-
+  baseUrl = 'http://localhost:5085/';
+  user: User | undefined;
+  
+  constructor(private accountService: AccountService, private http: HttpClient) { 
+    this.accountService.currentUser$.pipe(take(1)).subscribe({
+      next: user => {
+        if(user) this.user = user
+      }
+    })
   }
 
   ngOnInit(): void {
@@ -33,6 +44,16 @@ export class PostComponent implements OnInit {
     console.log("add post");
     this.createPost.emit();
     
+  }
+
+  deletePost() {
+    console.log("post id to delete: " + this.post?.id);
+    const headers = { 'Authorization': 'Bearer ' + this.user?.token};
+    return this.http.delete<number>(this.baseUrl + 'users/delete-post/' + this.post?.id, {headers}).pipe().subscribe({
+      next: res => console.log(res),
+      error: err => console.log(err)
+    })
+    //this.uploader?.uploadAll();
   }
   
 }

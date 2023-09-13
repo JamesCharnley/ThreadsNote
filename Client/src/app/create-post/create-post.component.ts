@@ -41,6 +41,7 @@ export class CreatePostComponent implements OnInit {
     }
     else{
       console.log("post undefined");
+      this.model.ownerPost = 0;
     }
     this.initializeUploader();
   }

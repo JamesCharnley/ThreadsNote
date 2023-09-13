@@ -14,5 +14,8 @@ namespace API.Entities
         public int AppUserId { get; set; } 
         public AppUser AppUser { get; set; }
         public List<Photo> Photos { get; set; } = new();
+
+        
     }
+    
 }

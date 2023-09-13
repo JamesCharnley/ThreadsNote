@@ -39,7 +39,6 @@ namespace API.Controllers
             var userWithPosts = await _context.Users.Include(p => p.Posts).SingleOrDefaultAsync(x => x.UserName == user.UserName);
             
             List<Post> posts = userWithPosts.Posts.Where(x => x.OwnerPostId == id).ToList();
-            if(posts.Count == 0) { return BadRequest("No posts found");}
 
             List<PostDto> dtos = new();
             foreach(Post p in posts){
@@ -56,6 +55,28 @@ namespace API.Controllers
             var userWithPosts = await _context.Users.Include(p => p.Posts).SingleOrDefaultAsync(x => x.UserName == user.UserName);
             List<Post> posts = userWithPosts.Posts.Where(x => x.OwnerPostId == id).ToList();
             return posts.Count;
+        }
+        
+        [HttpDelete("delete-post/{id}")]
+        public async Task<ActionResult> DeletePost(int id)
+        {
+            
+            var user = await _userRepository.GetUserByUsernameAsync(User.GetUsername());
+            if(user == null) {return BadRequest("user is null");}
+            
+            var userWithPosts = await _context.Users.Include(p => p.Posts).SingleOrDefaultAsync(x => x.UserName == user.UserName);
+            List<Post> postsToRemove = userWithPosts.Posts.Where(x => x.Id == id || x.OwnerPostId == id).ToList();
+            
+            foreach(Post p in postsToRemove)
+            {
+                userWithPosts.Posts.Remove(p);
+            }
+            if(await _userRepository.SaveAllAsync())
+            {
+                return Ok("save success");
+            }
+            
+            return BadRequest("Failed to save changes to database");
         }
         
         [HttpPost("add-post")]

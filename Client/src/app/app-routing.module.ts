@@ -11,7 +11,8 @@ const routes: Routes = [
     children: [
       {path: 'threaddisplay', component: ThreaddisplayComponent},
       {path: 'register', component: RegisterComponent},
-      {path: 'posttest', component: CreatePostComponent}
+      {path: 'posttest', component: CreatePostComponent},
+      {path: 'users/delete-post/:id', component: HomeComponent}
     ]
   }
 ];
