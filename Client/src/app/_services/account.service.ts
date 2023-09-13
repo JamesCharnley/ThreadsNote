@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, map } from 'rxjs';
+import { BehaviorSubject, map, take } from 'rxjs';
 import { User } from '../_models/user';
 import { environment } from 'src/environments/environment';
 
@@ -13,7 +13,8 @@ export class AccountService {
   private currentUserSource = new BehaviorSubject<User | null>(null);
   currentUser$ = this.currentUserSource.asObservable();
   
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {
+   }
 
   // login call
   login(model: any){
