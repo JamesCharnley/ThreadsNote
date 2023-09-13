@@ -24,6 +24,8 @@ export class CreatePostComponent implements OnInit {
   baseUrl = 'http://localhost:5085/';
   user: User | undefined;
   totalImages: number = 0;
+
+  createdPostId: number = 0;
   
   constructor(private accountService: AccountService, private http: HttpClient) { 
     this.accountService.currentUser$.pipe(take(1)).subscribe({
@@ -70,7 +72,7 @@ export class CreatePostComponent implements OnInit {
         this.totalImages -= 1;
         if(this.totalImages == 0) {
           console.log("All images uploaded. Post completed successfully");
-          this.displayNewPost();
+          this.displayNewPost(this.createdPostId);
         }
         else
         {
@@ -90,11 +92,12 @@ export class CreatePostComponent implements OnInit {
     //this.uploader?.uploadAll();
   }
   uploadImages(postId: number) {
+    this.createdPostId = postId;
     if(this.uploader?.queue) {
       this.totalImages = this.uploader.queue.length;
       if(this.totalImages < 1) {
         console.log("No images in queue: Post upload completed successfully");
-        this.displayNewPost();
+        this.displayNewPost(this.createdPostId);
         return;
       }
     }
@@ -109,8 +112,8 @@ export class CreatePostComponent implements OnInit {
     this.cancelCreatePost.emit();
   }
 
-  displayNewPost(){
-    this.newPostCreated.emit();
+  displayNewPost(id: number){
+    this.newPostCreated.emit(id);
     this.cancelAddPost();
   }
 }

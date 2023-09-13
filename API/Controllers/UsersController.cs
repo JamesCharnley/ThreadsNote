@@ -46,6 +46,19 @@ namespace API.Controllers
             }         
             return dtos;
         }
+        [HttpGet("post/{id}")]
+        public async Task<ActionResult<PostDto>> GetPost(int id)
+        {
+            var user = await _userRepository.GetUserByUsernameAsync(User.GetUsername());
+            if(user == null) {return BadRequest("user is null");}
+
+            var userWithPosts = await _context.Users.Include(p => p.Posts).SingleOrDefaultAsync(x => x.UserName == user.UserName);
+
+            Post post = userWithPosts.Posts.Where(x => x.Id == id).Single();
+            if(post == null){return BadRequest("Post with id " + id + " not found");}
+
+            return _mapper.Map<PostDto>(post);
+        }
 
         [HttpGet("thread-length/{id}")]
         public async Task<ActionResult<int>> GetThreadLength(int id)
@@ -73,7 +86,7 @@ namespace API.Controllers
             }
             if(await _userRepository.SaveAllAsync())
             {
-                return Ok("save success");
+                return Ok();
             }
             
             return BadRequest("Failed to save changes to database");

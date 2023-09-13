@@ -78,6 +78,22 @@ export class ThreadcontainerComponent implements OnInit, AfterViewInit {
       error: err => console.log(err)
     })
   }
+  getPost(id: number){
+    const headers = { 'Authorization': 'Bearer ' + this.user?.token};
+    return this.http.get<Post>('http://localhost:5085/users/post/' + id, {headers}).subscribe({
+      next: res => {
+        if(this.post)
+        {
+          this.addComponent(res, true);
+        }
+        else
+        {
+          this.addComponent(res, false);
+        }
+      },
+      error: err => console.log(err)
+    })
+  }
 
   loadPosts()
   {
@@ -142,16 +158,21 @@ export class ThreadcontainerComponent implements OnInit, AfterViewInit {
     this.createPostActive = false;
   }
 
-  newPostCreated(){
-    if(this.isExpaned){
-      this.removeSubposts();
-      this.isExpaned = false;
-    }
+  newPostCreated(id: number){
     if(this.post)
     {
+      if(this.isExpaned){
+        this.removeSubposts();
+        this.isExpaned = false;
+      }
       this.getThreadLength();
+      this.expandToggle();
+    }else{
+
+      this.getPost(id);
+      
     }
-    this.expandToggle();
+    
   }
 
   getPadding() {
