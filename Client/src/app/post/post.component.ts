@@ -20,40 +20,36 @@ export class PostComponent implements OnInit {
 
   baseUrl = 'http://localhost:5085/';
   user: User | undefined;
+  authHeader = {'Authorization': ''};
   
   constructor(private accountService: AccountService, private http: HttpClient) { 
     this.accountService.currentUser$.pipe(take(1)).subscribe({
       next: user => {
-        if(user) this.user = user
+        if(user) {
+          this.user = user;
+          this.authHeader.Authorization = 'Bearer ' + user.token;
+        }
       }
     })
   }
 
-  ngOnInit(): void {
-    if(this.post)
-    {
-      console.log("postid = " + this.post.id);
-    }
-  }
+  ngOnInit(): void { }
 
   expandTogglePressed() // user clicked expand post to open sub posts
   {
     this.expandToggle.emit(); // emit function call to parent (ThreadContainerComponent)
   }
+
   addPost(){
-    console.log("add post");
     this.createPost.emit();
-    
   }
 
   deletePost() {
-    console.log("post id to delete: " + this.post?.id);
-    const headers = { 'Authorization': 'Bearer ' + this.user?.token};
+    const headers = this.authHeader;
     return this.http.delete<number>(this.baseUrl + 'users/delete-post/' + this.post?.id, {headers}).pipe().subscribe({
       next: res => console.log(res),
       error: err => console.log(err)
     })
-    //this.uploader?.uploadAll();
   }
   
 }

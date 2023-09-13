@@ -26,23 +26,25 @@ export class CreatePostComponent implements OnInit {
   totalImages: number = 0;
 
   createdPostId: number = 0;
+
+  authHeader = {'Authorization': ''};
   
   constructor(private accountService: AccountService, private http: HttpClient) { 
     this.accountService.currentUser$.pipe(take(1)).subscribe({
       next: user => {
-        if(user) this.user = user
+        if(user) {
+          this.user = user;
+          this.authHeader.Authorization = 'Bearer ' + user.token;
+        }
       }
     })
   }
 
   ngOnInit(): void {
-    if(this.post)
-    {
+    if(this.post){
       this.model.ownerPost = this.post.id;
-      console.log("post.id = " + this.post.id + " model.ownerPost = " + this.model.ownerPost);
     }
     else{
-      console.log("post undefined");
       this.model.ownerPost = 0;
     }
     this.initializeUploader();
@@ -73,9 +75,7 @@ export class CreatePostComponent implements OnInit {
         if(this.totalImages == 0) {
           console.log("All images uploaded. Post completed successfully");
           this.displayNewPost(this.createdPostId);
-        }
-        else
-        {
+        }else{
           console.log("Image uploaded. " + this.totalImages + " uploads in progress"); // we may want to change this to recieve post
         }
       }
@@ -84,12 +84,11 @@ export class CreatePostComponent implements OnInit {
 
   submitPost() {
     console.log(this.model);
-    const headers = { 'Authorization': 'Bearer ' + this.user?.token};
+    const headers = this.authHeader;
     return this.http.post<number>(this.baseUrl + 'users/add-post', this.model, {headers}).pipe().subscribe({
       next: res => this.uploadImages(res),
       error: err => console.log(err)
     })
-    //this.uploader?.uploadAll();
   }
   uploadImages(postId: number) {
     this.createdPostId = postId;
