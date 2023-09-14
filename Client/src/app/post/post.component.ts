@@ -16,7 +16,7 @@ export class PostComponent implements OnInit {
   @Input() threadLength: number | undefined;
   @Output("expandToggle") expandToggle: EventEmitter<any> = new EventEmitter();
   @Output("createPost") createPost: EventEmitter<any> = new EventEmitter();
-
+  @Output("postDeleted") postDeleted: EventEmitter<any> = new EventEmitter();
 
   baseUrl = 'http://localhost:5085/';
   user: User | undefined;
@@ -47,7 +47,7 @@ export class PostComponent implements OnInit {
   deletePost() {
     const headers = this.authHeader;
     return this.http.delete<number>(this.baseUrl + 'users/delete-post/' + this.post?.id, {headers}).pipe().subscribe({
-      next: res => console.log(res),
+      next: _ => this.postDeleted.emit(),
       error: err => console.log(err)
     })
   }

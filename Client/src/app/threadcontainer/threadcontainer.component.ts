@@ -1,8 +1,8 @@
-import { Component, Input, OnInit, ViewChild, ViewContainerRef, ComponentRef, AfterContentInit, AfterViewInit} from '@angular/core';
+import { Component, Input, OnInit, ViewChild, ViewContainerRef, ComponentRef, AfterContentInit, AfterViewInit, ViewRef, Output, EventEmitter} from '@angular/core';
 import { Post } from 'src/app/_models/post';
 import { HttpClient } from '@angular/common/http';
 import { AccountService } from '../_services/account.service';
-import { take } from 'rxjs';
+import { Subscription, take } from 'rxjs';
 import { User } from '../_models/user';
 
 @Component({
@@ -14,7 +14,8 @@ export class ThreadcontainerComponent implements OnInit, AfterViewInit {
 
   @Input() post: Post | undefined;
   @ViewChild('container', {read: ViewContainerRef}) container: ViewContainerRef | undefined;
-
+  @Output("postDeleted") postDeleted: EventEmitter<any> = new EventEmitter();
+  
   threadLength: number = 0;
   isExpaned: boolean = false;
 
@@ -28,6 +29,8 @@ export class ThreadcontainerComponent implements OnInit, AfterViewInit {
   createPostActive: boolean = false;
 
   authHeader = {'Authorization': ''};
+
+  component : ComponentRef<ThreadcontainerComponent> | undefined;
   
   constructor(private accountService: AccountService, private http: HttpClient) { 
     this.accountService.currentUser$.pipe(take(1)).subscribe({
@@ -74,7 +77,13 @@ export class ThreadcontainerComponent implements OnInit, AfterViewInit {
         }
         
       },
-      error: err => console.log(err)
+      error: err => {
+        console.log(err);
+        if(err.error == "user is null"){
+          console.log("log out");
+          this.accountService.logout();
+        }
+      }
     })
   }
 
@@ -116,6 +125,9 @@ export class ThreadcontainerComponent implements OnInit, AfterViewInit {
 
       if(component){
         component.instance.post = post;
+        component.instance.component = component;
+        const sub: Subscription = component.instance.postDeleted.subscribe(evt => this.destroyChildThread(component));
+        component.onDestroy(() => sub.unsubscribe());
         if(incrementThreadIndex) {
           component.instance.threadIndex = this.threadIndex + 1;
         }
@@ -167,5 +179,22 @@ export class ThreadcontainerComponent implements OnInit, AfterViewInit {
     }
     return width;
   }
+
+  destroy(){
+    console.log("destroy");
+    this.postDeleted.emit();
+  }
   
+  destroyChildThread(component: ComponentRef<ThreadcontainerComponent>){
+    console.log("destroyChildThread");
+    if(component){
+      console.log("component not undefined");
+      let index : number | undefined = this.container?.indexOf(component.hostView);
+      console.log(index);
+      if(index != undefined){
+        this.container?.remove(index);
+        console.log("remove called");
+      }
+    }
+  }
 }

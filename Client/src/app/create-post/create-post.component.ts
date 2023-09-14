@@ -17,6 +17,7 @@ export class CreatePostComponent implements OnInit {
   @Input() post: Post | undefined;
   @Output("cancelCreatePost") cancelCreatePost: EventEmitter<any> = new EventEmitter();
   @Output("newPostCreated") newPostCreated: EventEmitter<any> = new EventEmitter();
+  
 
   model: any = {};
   uploader: FileUploader | undefined;
