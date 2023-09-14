@@ -1,6 +1,7 @@
 <div class="comp-body">
     <div class="thread-display-body">
-        <app-threaddisplay></app-threaddisplay>
+        <app-threaddisplay (popOutThreadEmitter)="popOutThread($event)"></app-threaddisplay>
+        <ng-template #container ></ng-template>
     </div>
     
 </div>

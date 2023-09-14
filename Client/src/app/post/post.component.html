@@ -1,4 +1,10 @@
 <div class="post">
+    <div class="top-action-container">
+        <div></div>
+        <div class="action-buttons">
+            <button id="pop-out-button" (click)="popOutThread()" type="button"><i class="fa fa-arrow-circle-right" aria-hidden="true"></i></button>
+        </div>
+    </div>
     <h3 class="post-title">{{post?.title}}</h3>
     <p class="post-paragraph">{{post?.contentText}}</p>
     <div *ngFor="let image of post?.photos" class="image-container">
@@ -6,11 +12,9 @@
     </div>
     <div class="bottom-action-container">
         <button class="expand-post-button" *ngIf="threadLength != 0" (click)="expandTogglePressed()" type="button">+{{threadLength}} posts</button>
+        
         <div class="action-buttons">
             <button id="add-post-button" (click)="addPost()" type="button"><i class="fa fa-plus" aria-hidden="true"></i></button>
-            <!--<label class="add-post-label" for="add-post-button"><i class="fa fa-plus" aria-hidden="true"></i></label>-->
-        </div>
-        <div class="action-buttons">
             <button id="add-post-button" (click)="deletePost()" type="button"><i class="fa fa-trash" aria-hidden="true"></i></button>
             <!--<label class="add-post-label" for="add-post-button"><i class="fa fa-plus" aria-hidden="true"></i></label>-->
         </div>

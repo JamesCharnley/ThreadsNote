@@ -17,6 +17,7 @@ export class PostComponent implements OnInit {
   @Output("expandToggle") expandToggle: EventEmitter<any> = new EventEmitter();
   @Output("createPost") createPost: EventEmitter<any> = new EventEmitter();
   @Output("postDeleted") postDeleted: EventEmitter<any> = new EventEmitter();
+  @Output("popOutThreadEmitter") popOutThreadEmitter: EventEmitter<any> = new EventEmitter();
 
   baseUrl = 'http://localhost:5085/';
   user: User | undefined;
@@ -50,6 +51,12 @@ export class PostComponent implements OnInit {
       next: _ => this.postDeleted.emit(),
       error: err => console.log(err)
     })
+  }
+
+  popOutThread(){
+    if(this.post){
+      this.popOutThreadEmitter.emit(this.post);
+    }
   }
   
 }

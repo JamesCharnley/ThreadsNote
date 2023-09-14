@@ -1,3 +1,3 @@
 <div class="thread-display">
-    <app-threadcontainer [post]="undefined"></app-threadcontainer>
+    <app-threadcontainer (popOutThreadEmitter)="popOutThread($event)" [post]="post"></app-threadcontainer>
 </div>

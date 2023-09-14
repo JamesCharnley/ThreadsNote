@@ -13,9 +13,11 @@ import { User } from '../_models/user';
 export class ThreadcontainerComponent implements OnInit, AfterViewInit {
 
   @Input() post: Post | undefined;
+
   @ViewChild('container', {read: ViewContainerRef}) container: ViewContainerRef | undefined;
   @Output("postDeleted") postDeleted: EventEmitter<any> = new EventEmitter();
-  
+  @Output("popOutThreadEmitter") popOutThreadEmitter: EventEmitter<any> = new EventEmitter();
+
   threadLength: number = 0;
   isExpaned: boolean = false;
 
@@ -128,6 +130,8 @@ export class ThreadcontainerComponent implements OnInit, AfterViewInit {
         component.instance.component = component;
         const sub: Subscription = component.instance.postDeleted.subscribe(evt => this.destroyChildThread(component));
         component.onDestroy(() => sub.unsubscribe());
+        const subPop: Subscription = component.instance.popOutThreadEmitter.subscribe(evt => this.popOutThread(evt));
+        component.onDestroy(() => subPop.unsubscribe());
         if(incrementThreadIndex) {
           component.instance.threadIndex = this.threadIndex + 1;
         }
@@ -196,5 +200,10 @@ export class ThreadcontainerComponent implements OnInit, AfterViewInit {
         console.log("remove called");
       }
     }
+  }
+
+  popOutThread(post: Post){
+    console.log(post);
+    this.popOutThreadEmitter.emit(post);
   }
 }
