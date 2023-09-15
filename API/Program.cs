@@ -21,7 +21,6 @@ builder.Services.AddDbContext<DataContext>(opt =>
 });
 
 builder.Services.AddEndpointsApiExplorer();
-
 builder.Services.Configure<CloudinarySettings>(builder.Configuration.GetSection("CloudinarySettings"));
 builder.Services.AddScoped<IPhotoService, PhotoService>();
 builder.Services.AddScoped<ITokenService, TokenService>();
