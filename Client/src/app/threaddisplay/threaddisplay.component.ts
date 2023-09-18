@@ -34,13 +34,29 @@ export class ThreaddisplayComponent implements OnInit {
     this.closeDisplayEmitter.emit(this.componentRef);
   }
 
-  setBaseContainer(ownerThreadContainer: ComponentRef<ThreadcontainerComponent>){
+  stepThreadForward(post: Post){
     if(this.baseThreadContainer){
       this.baseThreadContainer.removeSubposts();
-      this.baseThreadContainer.post = ownerThreadContainer.instance.post;
-      this.baseThreadContainer.threadLength = ownerThreadContainer.instance.threadLength;
-      this.baseThreadContainer.subPosts = ownerThreadContainer.instance.subPosts;
+      this.baseThreadContainer.post = post;
+      this.baseThreadContainer.getThreadLength();
+      this.baseThreadContainer.getThread(this.baseThreadContainer.post.id);
     }
   }
+
+  stepThreadBack(post: Post){
+    if(this.baseThreadContainer){
+      this.baseThreadContainer.removeSubposts();
+      this.baseThreadContainer.post = undefined;
+      if(post.ownerPostId){
+        if(post.ownerPostId != 0){
+          this.baseThreadContainer.getPost(post.ownerPostId, true);
+        }
+      }
+      else{
+        this.baseThreadContainer.getThread(0);
+      }
+    }
+  }
+  
 
 }

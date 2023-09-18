@@ -19,7 +19,8 @@ export class PostComponent implements OnInit {
   @Output("createPost") createPost: EventEmitter<any> = new EventEmitter();
   @Output("postDeleted") postDeleted: EventEmitter<any> = new EventEmitter();
   @Output("popOutThreadEmitter") popOutThreadEmitter: EventEmitter<any> = new EventEmitter();
-  @Output("setBasePost") setBasePostEmitter: EventEmitter<any> = new EventEmitter();
+  @Output("stepThreadForwardEmitter") stepThreadForwardEmitter: EventEmitter<any> = new EventEmitter();
+  @Output("stepThreadBackEmitter") stepThreadBackEmitter: EventEmitter<any> = new EventEmitter();
 
   baseUrl = 'http://localhost:5085/';
   user: User | undefined;
@@ -61,8 +62,12 @@ export class PostComponent implements OnInit {
     }
   }
 
-  setAsBasePost(){
-    this.setBasePostEmitter.emit(this.ownerThreadContainer);
+  stepThreadForward(){
+    this.stepThreadForwardEmitter.emit(this.post);
+  }
+
+  stepThreadBack(){
+    this.stepThreadBackEmitter.emit(this.post);
   }
   
 }

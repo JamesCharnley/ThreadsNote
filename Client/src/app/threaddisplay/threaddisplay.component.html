@@ -3,5 +3,5 @@
         <div></div>
         <button (click)="closeDisplay()" type="button"><i class="fa fa-window-close" aria-hidden="true"></i></button>
     </div>
-    <app-threadcontainer #baseThreadContainer (setBasePost)="setBaseContainer($event)" (popOutThreadEmitter)="popOutThread($event)" [post]="post"></app-threadcontainer>
+    <app-threadcontainer #baseThreadContainer (stepThreadForwardEmitter)="stepThreadForward($event)" (stepThreadBackEmitter)="stepThreadBack($event)" (popOutThreadEmitter)="popOutThread($event)" [post]="post"></app-threadcontainer>
 </div>

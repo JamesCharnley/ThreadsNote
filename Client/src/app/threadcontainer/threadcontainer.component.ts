@@ -17,7 +17,9 @@ export class ThreadcontainerComponent implements OnInit, AfterViewInit {
   @ViewChild('container', {read: ViewContainerRef}) container: ViewContainerRef | undefined;
   @Output("postDeleted") postDeleted: EventEmitter<any> = new EventEmitter();
   @Output("popOutThreadEmitter") popOutThreadEmitter: EventEmitter<any> = new EventEmitter();
-  @Output("setBasePost") setBasePostEmitter: EventEmitter<any> = new EventEmitter();
+  @Output("stepThreadForwardEmitter") stepThreadForwardEmitter: EventEmitter<any> = new EventEmitter();
+  @Output("stepThreadBackEmitter") stepThreadBackEmitter: EventEmitter<any> = new EventEmitter();
+
   threadLength: number = 0;
   isExpaned: boolean = false;
 
@@ -90,14 +92,14 @@ export class ThreadcontainerComponent implements OnInit, AfterViewInit {
     })
   }
 
-  getPost(id: number){
+  getPost(id: number, getThread: boolean = false){
     const headers = this.authHeader;
     return this.http.get<Post>('http://localhost:5085/users/post/' + id, {headers}).subscribe({
       next: res => {
         if(this.post){
-          this.addComponent(res, true);
+          this.addComponent(res, true, getThread);
         }else{
-          this.addComponent(res, false);
+          this.addComponent(res, false, getThread);
         }
       },
       error: err => console.log(err)
@@ -121,7 +123,7 @@ export class ThreadcontainerComponent implements OnInit, AfterViewInit {
     this.container?.clear();
   }
 
-  addComponent(post: Post, incrementThreadIndex: boolean) {
+  addComponent(post: Post, incrementThreadIndex: boolean, getThread: boolean = false) {
     if(this.container) {
 
       const component = this.container.createComponent(ThreadcontainerComponent);
@@ -129,12 +131,15 @@ export class ThreadcontainerComponent implements OnInit, AfterViewInit {
       if(component){
         component.instance.post = post;
         component.instance.component = component;
+        if(getThread) {component.instance.getThread(post.id);}
         const sub: Subscription = component.instance.postDeleted.subscribe(evt => this.destroyChildThread(component));
         component.onDestroy(() => sub.unsubscribe());
         const subPop: Subscription = component.instance.popOutThreadEmitter.subscribe(evt => this.popOutThread(evt));
         component.onDestroy(() => subPop.unsubscribe());
-        const subSetBase: Subscription = component.instance.setBasePostEmitter.subscribe(evt => this.setBasePost(evt));
-        component.onDestroy(() => subSetBase.unsubscribe());
+        const subStepForward: Subscription = component.instance.stepThreadForwardEmitter.subscribe(evt => this.stepThreadForward(evt));
+        component.onDestroy(() => subStepForward.unsubscribe());
+        const subStepBack: Subscription = component.instance.stepThreadBackEmitter.subscribe(evt => this.stepThreadBack(evt));
+        component.onDestroy(() => subStepBack.unsubscribe());
         if(incrementThreadIndex) {
           component.instance.threadIndex = this.threadIndex + 1;
         }
@@ -210,7 +215,10 @@ export class ThreadcontainerComponent implements OnInit, AfterViewInit {
     this.popOutThreadEmitter.emit(post);
   }
 
-  setBasePost(ownerThreadContainer: ComponentRef<ThreadcontainerComponent>){
-    this.setBasePostEmitter.emit(ownerThreadContainer);
+  stepThreadForward(post: Post){
+    this.stepThreadForwardEmitter.emit(post);
+  }
+  stepThreadBack(post: Post){
+    this.stepThreadBackEmitter.emit(post);
   }
 }
