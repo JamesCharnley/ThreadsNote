@@ -1,9 +1,10 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import { Component, ComponentRef, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import { Post } from 'src/app/_models/post';
 import { AccountService } from '../_services/account.service';
 import { User } from '../_models/user';
 import { take } from 'rxjs';
+import { ThreadcontainerComponent } from '../threadcontainer/threadcontainer.component';
 
 @Component({
   selector: 'app-post',
@@ -11,13 +12,14 @@ import { take } from 'rxjs';
   styleUrls: ['./post.component.css']
 })
 export class PostComponent implements OnInit {
-  
+  @Input() ownerThreadContainer: ComponentRef<ThreadcontainerComponent> | undefined;
   @Input() post: Post | undefined;
   @Input() threadLength: number | undefined;
   @Output("expandToggle") expandToggle: EventEmitter<any> = new EventEmitter();
   @Output("createPost") createPost: EventEmitter<any> = new EventEmitter();
   @Output("postDeleted") postDeleted: EventEmitter<any> = new EventEmitter();
   @Output("popOutThreadEmitter") popOutThreadEmitter: EventEmitter<any> = new EventEmitter();
+  @Output("setBasePost") setBasePostEmitter: EventEmitter<any> = new EventEmitter();
 
   baseUrl = 'http://localhost:5085/';
   user: User | undefined;
@@ -57,6 +59,10 @@ export class PostComponent implements OnInit {
     if(this.post){
       this.popOutThreadEmitter.emit(this.post);
     }
+  }
+
+  setAsBasePost(){
+    this.setBasePostEmitter.emit(this.ownerThreadContainer);
   }
   
 }

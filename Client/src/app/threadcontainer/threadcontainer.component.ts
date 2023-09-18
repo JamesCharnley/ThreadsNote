@@ -17,7 +17,7 @@ export class ThreadcontainerComponent implements OnInit, AfterViewInit {
   @ViewChild('container', {read: ViewContainerRef}) container: ViewContainerRef | undefined;
   @Output("postDeleted") postDeleted: EventEmitter<any> = new EventEmitter();
   @Output("popOutThreadEmitter") popOutThreadEmitter: EventEmitter<any> = new EventEmitter();
-
+  @Output("setBasePost") setBasePostEmitter: EventEmitter<any> = new EventEmitter();
   threadLength: number = 0;
   isExpaned: boolean = false;
 
@@ -75,6 +75,7 @@ export class ThreadcontainerComponent implements OnInit, AfterViewInit {
           this.loadPosts();
         }else{
           this.subPosts = posts;
+          this.threadLength = this.subPosts.length;
           this.loadSubPosts();
         }
         
@@ -132,6 +133,8 @@ export class ThreadcontainerComponent implements OnInit, AfterViewInit {
         component.onDestroy(() => sub.unsubscribe());
         const subPop: Subscription = component.instance.popOutThreadEmitter.subscribe(evt => this.popOutThread(evt));
         component.onDestroy(() => subPop.unsubscribe());
+        const subSetBase: Subscription = component.instance.setBasePostEmitter.subscribe(evt => this.setBasePost(evt));
+        component.onDestroy(() => subSetBase.unsubscribe());
         if(incrementThreadIndex) {
           component.instance.threadIndex = this.threadIndex + 1;
         }
@@ -205,5 +208,9 @@ export class ThreadcontainerComponent implements OnInit, AfterViewInit {
   popOutThread(post: Post){
     console.log(post);
     this.popOutThreadEmitter.emit(post);
+  }
+
+  setBasePost(ownerThreadContainer: ComponentRef<ThreadcontainerComponent>){
+    this.setBasePostEmitter.emit(ownerThreadContainer);
   }
 }
