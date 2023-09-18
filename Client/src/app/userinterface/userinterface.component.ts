@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
+import { AfterViewInit, Component, ComponentRef, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
 import { ThreaddisplayComponent } from '../threaddisplay/threaddisplay.component';
 import { Post } from '../_models/post';
 import { Subscription } from 'rxjs';
@@ -24,6 +24,17 @@ export class UserinterfaceComponent implements OnInit, AfterViewInit {
     console.log("pop out thread userint");
     this.addDisplayComponent(post);
   }
+  closeDisplay(component: ComponentRef<ThreaddisplayComponent>){
+    if(component){
+      console.log("component not undefined");
+      let index : number | undefined = this.container?.indexOf(component.hostView);
+      console.log(index);
+      if(index != undefined){
+        this.container?.remove(index);
+        console.log("remove called");
+      }
+    }
+  }
 
   addDisplayComponent(post: Post) {
     if(this.container) {
@@ -32,7 +43,10 @@ export class UserinterfaceComponent implements OnInit, AfterViewInit {
 
       if(component){
         component.instance.post = post;
+        component.instance.componentRef = component;
         const subPop: Subscription = component.instance.popOutThreadEmitter.subscribe(evt => this.popOutThread(evt));
+        component.onDestroy(() => subPop.unsubscribe());
+        const subClose: Subscription = component.instance.closeDisplayEmitter.subscribe(evt => this.closeDisplay(evt));
         component.onDestroy(() => subPop.unsubscribe());
         component.changeDetectorRef.detectChanges();
       }

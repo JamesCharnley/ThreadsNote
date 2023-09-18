@@ -1,3 +1,7 @@
 <div class="thread-display">
+    <div *ngIf="!isBaseDisplay" class="top-button-box">
+        <div></div>
+        <button (click)="closeDisplay()" type="button"><i class="fa fa-window-close" aria-hidden="true"></i></button>
+    </div>
     <app-threadcontainer (popOutThreadEmitter)="popOutThread($event)" [post]="post"></app-threadcontainer>
 </div>
