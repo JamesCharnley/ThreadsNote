@@ -84,10 +84,6 @@ export class ThreadcontainerComponent implements OnInit, AfterViewInit {
       },
       error: err => {
         console.log(err);
-        if(err.error == "user is null"){
-          console.log("log out");
-          this.accountService.logout();
-        }
       }
     })
   }
