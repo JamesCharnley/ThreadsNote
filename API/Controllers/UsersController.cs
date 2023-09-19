@@ -34,7 +34,7 @@ namespace API.Controllers
         public async Task<ActionResult<IEnumerable<PostDto>>> GetThreads(int id)
         {
             var user = await _userRepository.GetUserByUsernameAsync(User.GetUsername());
-            if(user == null) {return BadRequest("user is null");}
+            if(user == null) {return Unauthorized();}
 
             var userWithPosts = await _context.Users.Include(p => p.Posts).SingleOrDefaultAsync(x => x.UserName == user.UserName);
             
@@ -50,7 +50,7 @@ namespace API.Controllers
         public async Task<ActionResult<PostDto>> GetPost(int id)
         {
             var user = await _userRepository.GetUserByUsernameAsync(User.GetUsername());
-            if(user == null) {return BadRequest("user is null");}
+            if(user == null) {return Unauthorized();}
 
             var userWithPosts = await _context.Users.Include(p => p.Posts).SingleOrDefaultAsync(x => x.UserName == user.UserName);
 
@@ -64,7 +64,7 @@ namespace API.Controllers
         public async Task<ActionResult<int>> GetThreadLength(int id)
         {
             var user = await _userRepository.GetUserByUsernameAsync(User.GetUsername());
-            if(user == null) {return BadRequest("user is null");}
+            if(user == null) {return Unauthorized();}
             var userWithPosts = await _context.Users.Include(p => p.Posts).SingleOrDefaultAsync(x => x.UserName == user.UserName);
             List<Post> posts = userWithPosts.Posts.Where(x => x.OwnerPostId == id).ToList();
             return posts.Count;
@@ -75,7 +75,7 @@ namespace API.Controllers
         {
             
             var user = await _userRepository.GetUserByUsernameAsync(User.GetUsername());
-            if(user == null) {return BadRequest("user is null");}
+            if(user == null) {return Unauthorized();}
             
             var userWithPosts = await _context.Users.Include(p => p.Posts).SingleOrDefaultAsync(x => x.UserName == user.UserName);
             List<Post> postsToRemove = userWithPosts.Posts.Where(x => x.Id == id || x.OwnerPostId == id).ToList();
@@ -97,7 +97,7 @@ namespace API.Controllers
         {
             var user = await _userRepository.GetUserByUsernameAsync(User.GetUsername());
 
-            if(user == null) {return BadRequest("User null"); }
+            if(user == null) {return Unauthorized(); }
             Post newPost = new Post
             {
                 OwnerPostId = postDto.OwnerPost,
@@ -119,7 +119,7 @@ namespace API.Controllers
         {
             var user = await _userRepository.GetUserByUsernameAsync(User.GetUsername());
 
-            if(user == null) { return NotFound();}
+            if(user == null) { return Unauthorized();}
 
             var result = await _photoService.AddPhotoAsync(file);
 

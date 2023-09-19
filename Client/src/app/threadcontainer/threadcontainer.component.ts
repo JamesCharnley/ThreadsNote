@@ -68,9 +68,9 @@ export class ThreadcontainerComponent implements OnInit, AfterViewInit {
   ngAfterContentInit(): void { }
   ngOnInit(): void { }
 
-  getThread(id: number) {
+  async getThread(id: number) {
     const headers = this.authHeader;
-    return this.http.get<Post[]>('http://localhost:5085/users/threads/' + id, {headers}).subscribe({
+    return await this.http.get<Post[]>('http://localhost:5085/users/threads/' + id, {headers}).subscribe({
       next: posts => {
         if(id == 0){
           this.posts = posts;
@@ -92,9 +92,9 @@ export class ThreadcontainerComponent implements OnInit, AfterViewInit {
     })
   }
 
-  getPost(id: number, getThread: boolean = false){
+  async getPost(id: number, getThread: boolean = false){
     const headers = this.authHeader;
-    return this.http.get<Post>('http://localhost:5085/users/post/' + id, {headers}).subscribe({
+    return await this.http.get<Post>('http://localhost:5085/users/post/' + id, {headers}).subscribe({
       next: res => {
         if(this.post){
           this.addComponent(res, true, getThread);

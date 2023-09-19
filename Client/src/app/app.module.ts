@@ -17,6 +17,8 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { UserinterfaceComponent } from './userinterface/userinterface.component';
 import { CreatePostComponent } from './create-post/create-post.component';
 import { FileUploadModule } from 'ng2-file-upload';
+import { LogoutComponent } from './logout/logout.component';
+import { ErrorInterceptor } from './_interceptors/error.interceptor';
 @NgModule({
   declarations: [
     AppComponent,
@@ -28,7 +30,8 @@ import { FileUploadModule } from 'ng2-file-upload';
     LoginComponent,
     HomeComponent,
     UserinterfaceComponent,
-    CreatePostComponent
+    CreatePostComponent,
+    LogoutComponent
   ],
   imports: [
     BrowserModule,
@@ -40,7 +43,9 @@ import { FileUploadModule } from 'ng2-file-upload';
     ToastrModule.forRoot(),
     FileUploadModule
   ],
-  providers: [],
+  providers: [
+    {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true}
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
