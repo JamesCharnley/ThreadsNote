@@ -2,6 +2,7 @@ import { AfterViewInit, Component, ComponentRef, OnInit, ViewChild, ViewContaine
 import { ThreaddisplayComponent } from '../threaddisplay/threaddisplay.component';
 import { Post } from '../_models/post';
 import { Subscription } from 'rxjs';
+import { DeviceDetectorService } from 'ngx-device-detector';
 
 @Component({
   selector: 'app-userinterface',
@@ -11,7 +12,13 @@ import { Subscription } from 'rxjs';
 export class UserinterfaceComponent implements OnInit, AfterViewInit {
   @ViewChild('container', {read: ViewContainerRef}) container: ViewContainerRef | undefined;
 
-  constructor() { }
+  isMobile: boolean = false;
+  constructor(private deviceDetector: DeviceDetectorService) { 
+    if(this.deviceDetector.isMobile()){
+      this.isMobile = true;
+      console.log("IsMobile");
+    }
+  }
 
   ngAfterViewInit(): void {
     

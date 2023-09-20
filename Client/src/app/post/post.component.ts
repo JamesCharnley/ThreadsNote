@@ -50,7 +50,7 @@ export class PostComponent implements OnInit {
 
   deletePost() {
     const headers = this.authHeader;
-    return this.http.delete<number>(this.baseUrl + 'users/delete-post/' + this.post?.id, {headers}).pipe().subscribe({
+    return this.http.delete<number>(this.baseUrl + 'thread/delete-post/' + this.post?.id, {headers}).pipe().subscribe({
       next: _ => this.postDeleted.emit(),
       error: err => console.log(err)
     })
@@ -68,6 +68,10 @@ export class PostComponent implements OnInit {
 
   stepThreadBack(){
     this.stepThreadBackEmitter.emit(this.post);
+  }
+
+  editPost(){
+    
   }
   
 }

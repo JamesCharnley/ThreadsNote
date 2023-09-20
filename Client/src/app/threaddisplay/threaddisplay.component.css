@@ -1,16 +1,33 @@
-.thread-display{
-    max-width: 30vw;
-    min-width: 30vw;
-    height: 100vh;
-    width: auto;
-    display: flex;
-    flex-direction: column;
-    padding: 10px;
-    border-style: solid;
-    border-color: whitesmoke;
-    background-color: rgb(22, 22, 22);
-    overflow-y: auto;
-}
+@media only screen and (max-width: 600px) {
+    .thread-display{
+        width: 85vw;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        padding: 10px;
+        border-style: solid;
+        border-color: whitesmoke;
+        background: rgb(0,0,0);
+background: linear-gradient(90deg, rgba(0,0,0,1) 15%, rgba(74,71,77,1) 35%, rgba(74,71,77,1) 65%, rgba(0,0,0,1) 85%);
+        overflow-y: auto;
+    }
+  }
+  @media only screen and (min-width: 600px) {
+    .thread-display{
+        max-width: 25vw;
+        min-width: 25vw;
+        height: 100vh;
+        width: auto;
+        display: flex;
+        flex-direction: column;
+        padding: 10px;
+        border-style: solid;
+        border-color: whitesmoke;
+        background: rgb(0,0,0);
+background: linear-gradient(90deg, rgba(0,0,0,1) 5%, rgba(74,71,77,1) 50%, rgba(0,0,0,1) 95%);
+        overflow-y: auto;
+    }
+  }
 .top-button-box{
     width: 100%;
     display: flex;

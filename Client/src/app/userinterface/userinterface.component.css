@@ -1,13 +1,40 @@
-.comp-body{
-    min-height: 100vh;
-    background-color: black;
-    position: relative;
+
+@media only screen and (max-width: 600px) {
+    .comp-body{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        min-height: 100vh;
+        position: relative;
+    
+    
+    background-color: #171720;
+
+    }
+}
+@media only screen and (min-width: 600px) {
+    .comp-body{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        min-height: 100vh;
+        position: relative;
+    
+    
+    background-color: #0d0d13;
+    opacity: 0.8;
+    background-image:  repeating-radial-gradient( circle at 0 0, transparent 0, #0d0d13 15px ), repeating-linear-gradient( #0e75fa55, #0e75fa );
+    }
 }
 .thread-display-body{
     display:flex;
     flex-direction: row;
     justify-content: center;
-    gap: 20px;
+    gap: 10px;
+    width: 100%;
+}
+.thread-display-sidebar{
+    width:25vw;
 }
 .add-post-container{
     position: absolute;

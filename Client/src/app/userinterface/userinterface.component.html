@@ -1,6 +1,9 @@
 <div class="comp-body">
-    <div class="thread-display-body">
+    <div *ngIf="!isMobile" class="thread-display-sidebar">
         <app-threaddisplay (popOutThreadEmitter)="popOutThread($event)" [isBaseDisplay]="true"></app-threaddisplay>
+    </div>
+    <div class="thread-display-body">
+        <app-threaddisplay *ngIf="isMobile" (popOutThreadEmitter)="popOutThread($event)" [isBaseDisplay]="true"></app-threaddisplay>
         <ng-template #container ></ng-template>
     </div>
     
