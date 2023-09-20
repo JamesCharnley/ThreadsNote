@@ -2,7 +2,7 @@
     <div class="nav-bar-container">
       <h3 class="nav-bar-title">ThreadNotes</h3>
 
-        <div class="dropdown">
+        <div *ngIf="accountService.currentUser$ | async" class="dropdown">
           <button type="button" class="dropdown-toggle" (click)="toggleDropdown()"><i class="fa fa-ellipsis-v" aria-hidden="true"></i></button>
           <div *ngIf="dropdownActive" class="dropdown-content">
             <button type="button" class="dropdown-item" (click)="logout()">Logout</button>
