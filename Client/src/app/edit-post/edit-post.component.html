@@ -1,0 +1,18 @@
+<div class="comp-body">
+    <form #registerForm="ngForm" class="form" (ngSubmit)="submitPost()" autocomplete="off">
+        <h2 class="text-center text-primary">Create Post</h2>
+        <hr>
+        <div class="mb-3 form-element">
+            <input #titlebox type="text" class="form-control" name="title" [(ngModel)]="model.title">
+        </div>
+        <div class="mb-3 form-element">
+            <textarea type="text" class="content-text" name="content" [(ngModel)]="model.content" placeholder="text..."></textarea>
+        </div>
+        
+        <div class="text-center form-element">
+            <button class="btn btn-success me-2" type="submit">submit</button>
+            <button (click)="cancelEditPost()">cancel</button>
+        </div>
+    </form>
+    
+    </div>

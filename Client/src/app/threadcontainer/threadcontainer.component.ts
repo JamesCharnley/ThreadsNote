@@ -31,6 +31,7 @@ export class ThreadcontainerComponent implements OnInit, AfterViewInit {
   user: User | undefined;
 
   createPostActive: boolean = false;
+  editPostActive: boolean = false;
 
   authHeader = {'Authorization': ''};
 
@@ -160,9 +161,16 @@ export class ThreadcontainerComponent implements OnInit, AfterViewInit {
   createPost() {
     this.createPostActive = true;
   }
+  editPost(){
+    console.log("edit post clicked");
+    this.editPostActive = true;
+  }
 
   cancelCreatePost(){
     this.createPostActive = false;
+  }
+  cancelEditPost(){
+    this.editPostActive = false;
   }
 
   newPostCreated(id: number){
@@ -173,6 +181,9 @@ export class ThreadcontainerComponent implements OnInit, AfterViewInit {
     }else{
       this.getPost(id);
     }
+  }
+  postEdited(id: number){
+    this.getPost(id);
   }
 
   getPadding() {

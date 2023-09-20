@@ -113,6 +113,37 @@ namespace API.Controllers
             return BadRequest("Problem adding post");
         }
 
+        [HttpPut("edit-post")]
+        public async Task<ActionResult<int>> EditPost(EditPostDto changes)
+        {
+            var user = await _userRepository.GetUserByUsernameAsync(User.GetUsername());
+
+            if(user == null) { return Unauthorized();}
+
+            var userWithPosts = await _context.Users.Include(p => p.Posts).SingleOrDefaultAsync(x => x.UserName == user.UserName);
+
+            Post post = userWithPosts.Posts.Where(x => x.Id == changes.Id).SingleOrDefault();
+            if(post == null){return BadRequest("Post does not exist");}
+            if(post.Title == changes.Title && post.ContentText == changes.Content)
+            {
+                return BadRequest("No changes made to post");
+            }
+            if(post.Title != changes.Title)
+            {
+                post.Title = changes.Title;
+            }
+            if(post.ContentText != changes.Content)
+            {
+                post.ContentText = changes.Content;
+            }
+            //userWithPosts.Posts.Where(x => x.Id == changes.Id).SingleOrDefault().Title = changes.Title;
+            //userWithPosts.Posts.Where(x => x.Id == changes.Id).SingleOrDefault().ContentText = changes.Content;
+
+            if(await _userRepository.SaveAllAsync()) return NoContent();
+
+            return BadRequest("Something went wrong =(");
+        }
+
         [HttpPost("add-photo/{id}")]
         public async Task<ActionResult<PhotoDto>> AddPhoto(int id, IFormFile file)
         {

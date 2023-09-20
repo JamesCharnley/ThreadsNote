@@ -17,6 +17,7 @@ export class PostComponent implements OnInit {
   @Input() threadLength: number | undefined;
   @Output("expandToggle") expandToggle: EventEmitter<any> = new EventEmitter();
   @Output("createPost") createPost: EventEmitter<any> = new EventEmitter();
+  @Output("editPostEmitter") editPostEmitter: EventEmitter<any> = new EventEmitter();
   @Output("postDeleted") postDeleted: EventEmitter<any> = new EventEmitter();
   @Output("popOutThreadEmitter") popOutThreadEmitter: EventEmitter<any> = new EventEmitter();
   @Output("stepThreadForwardEmitter") stepThreadForwardEmitter: EventEmitter<any> = new EventEmitter();
@@ -71,7 +72,7 @@ export class PostComponent implements OnInit {
   }
 
   editPost(){
-    
+    this.editPostEmitter.emit();
   }
   
 }

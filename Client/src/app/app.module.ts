@@ -19,6 +19,8 @@ import { CreatePostComponent } from './create-post/create-post.component';
 import { FileUploadModule } from 'ng2-file-upload';
 import { LogoutComponent } from './logout/logout.component';
 import { ErrorInterceptor } from './_interceptors/error.interceptor';
+import { EditPostComponent } from './edit-post/edit-post.component';
+import { NavComponent } from './nav/nav.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -31,7 +33,9 @@ import { ErrorInterceptor } from './_interceptors/error.interceptor';
     HomeComponent,
     UserinterfaceComponent,
     CreatePostComponent,
-    LogoutComponent
+    LogoutComponent,
+    EditPostComponent,
+    NavComponent
   ],
   imports: [
     BrowserModule,

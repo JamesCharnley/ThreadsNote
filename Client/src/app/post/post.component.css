@@ -15,6 +15,9 @@ h3, p{
     color: whitesmoke;
     padding: 10px;
 }
+button{
+    margin-left: 10px;
+}
 .bottom-action-container{
     display: flex;
     flex-direction: row;
