@@ -22,7 +22,7 @@ export class CreatePostComponent implements OnInit {
   model: any = {};
   uploader: FileUploader | undefined;
   hasBaseDropZoneOver = false;
-  baseUrl = 'http://localhost:5085/';
+  baseUrl = environment.apiUrl;
   user: User | undefined;
   totalImages: number = 0;
 
@@ -57,7 +57,7 @@ export class CreatePostComponent implements OnInit {
 
   initializeUploader() {
     this.uploader = new FileUploader({
-      url: this.baseUrl + 'thread/add-photo/1',
+      url: this.baseUrl + '/thread/add-photo/1',
       authToken: 'Bearer ' + this.user?.token,
       isHTML5: true,
       allowedFileType: ['image'],
@@ -86,7 +86,7 @@ export class CreatePostComponent implements OnInit {
   submitPost() {
     console.log(this.model);
     const headers = this.authHeader;
-    return this.http.post<number>(this.baseUrl + 'thread/add-post', this.model, {headers}).pipe().subscribe({
+    return this.http.post<number>(this.baseUrl + '/thread/add-post', this.model, {headers}).pipe().subscribe({
       next: res => this.uploadImages(res),
       error: err => console.log(err)
     })
@@ -103,7 +103,7 @@ export class CreatePostComponent implements OnInit {
     }
 
     this.uploader?.setOptions({
-      url: this.baseUrl + 'thread/add-photo/' + postId
+      url: this.baseUrl + '/thread/add-photo/' + postId
     });
     this.uploader?.uploadAll();
   }

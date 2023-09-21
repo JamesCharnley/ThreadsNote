@@ -4,6 +4,7 @@ import { AccountService } from '../_services/account.service';
 import { HttpClient } from '@angular/common/http';
 import { User } from '../_models/user';
 import { take } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-edit-post',
@@ -19,7 +20,7 @@ export class EditPostComponent implements OnInit {
   model: any = {};
   user: User | undefined;
   authHeader = {'Authorization': ''};
-  baseUrl = 'http://localhost:5085/';
+  baseUrl = environment.apiUrl;
   
   constructor(private accountService: AccountService, private http: HttpClient) { 
     this.accountService.currentUser$.pipe(take(1)).subscribe({
@@ -44,7 +45,7 @@ export class EditPostComponent implements OnInit {
   submitPost(){
     console.log(this.model);
     const headers = this.authHeader;
-    return this.http.put<number>(this.baseUrl + 'thread/edit-post', this.model, {headers}).pipe().subscribe({
+    return this.http.put<number>(this.baseUrl + '/thread/edit-post', this.model, {headers}).pipe().subscribe({
       next: res => console.log(res),
       error: err => console.log(err)
     })

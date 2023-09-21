@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { AccountService } from '../_services/account.service';
 import { Subscription, take } from 'rxjs';
 import { User } from '../_models/user';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-threadcontainer',
@@ -12,6 +13,7 @@ import { User } from '../_models/user';
 })
 export class ThreadcontainerComponent implements OnInit, AfterViewInit {
 
+  baseUrl = environment.apiUrl;
   @Input() post: Post | undefined;
 
   @ViewChild('container', {read: ViewContainerRef}) container: ViewContainerRef | undefined;
@@ -60,7 +62,7 @@ export class ThreadcontainerComponent implements OnInit, AfterViewInit {
 
   getThreadLength() {
     const headers = this.authHeader;
-    return this.http.get<number>('http://localhost:5085/thread/thread-length/' + this.post?.id, {headers}).subscribe({
+    return this.http.get<number>(this.baseUrl + '/thread/thread-length/' + this.post?.id, {headers}).subscribe({
       next: length => this.threadLength = length,
       error: err => console.log(err)
     })
@@ -71,7 +73,7 @@ export class ThreadcontainerComponent implements OnInit, AfterViewInit {
 
   async getThread(id: number) {
     const headers = this.authHeader;
-    return await this.http.get<Post[]>('http://localhost:5085/thread/' + id, {headers}).subscribe({
+    return await this.http.get<Post[]>(this.baseUrl + '/thread/' + id, {headers}).subscribe({
       next: posts => {
         if(id == 0){
           this.posts = posts;
@@ -91,7 +93,7 @@ export class ThreadcontainerComponent implements OnInit, AfterViewInit {
 
   async getPost(id: number, getThread: boolean = false){
     const headers = this.authHeader;
-    return await this.http.get<Post>('http://localhost:5085/thread/post/' + id, {headers}).subscribe({
+    return await this.http.get<Post>(this.baseUrl + '/thread/post/' + id, {headers}).subscribe({
       next: res => {
         if(this.post){
           this.addComponent(res, true, getThread);

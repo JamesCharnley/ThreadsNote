@@ -51,9 +51,9 @@ export class UserinterfaceComponent implements OnInit, AfterViewInit {
       if(component){
         component.instance.post = post;
         component.instance.componentRef = component;
-        const subPop: Subscription = component.instance.popOutThreadEmitter.subscribe(evt => this.popOutThread(evt));
+        const subPop: Subscription = component.instance.popOutThreadEmitter.subscribe((evt: Post) => this.popOutThread(evt));
         component.onDestroy(() => subPop.unsubscribe());
-        const subClose: Subscription = component.instance.closeDisplayEmitter.subscribe(evt => this.closeDisplay(evt));
+        const subClose: Subscription = component.instance.closeDisplayEmitter.subscribe((evt: ComponentRef<ThreaddisplayComponent>) => this.closeDisplay(evt));
         component.onDestroy(() => subPop.unsubscribe());
         component.changeDetectorRef.detectChanges();
       }

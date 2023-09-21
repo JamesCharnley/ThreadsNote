@@ -5,6 +5,7 @@ import { AccountService } from '../_services/account.service';
 import { User } from '../_models/user';
 import { take } from 'rxjs';
 import { ThreadcontainerComponent } from '../threadcontainer/threadcontainer.component';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-post',
@@ -23,7 +24,7 @@ export class PostComponent implements OnInit {
   @Output("stepThreadForwardEmitter") stepThreadForwardEmitter: EventEmitter<any> = new EventEmitter();
   @Output("stepThreadBackEmitter") stepThreadBackEmitter: EventEmitter<any> = new EventEmitter();
 
-  baseUrl = 'http://localhost:5085/';
+  baseUrl = environment.apiUrl;
   user: User | undefined;
   authHeader = {'Authorization': ''};
   
@@ -51,7 +52,7 @@ export class PostComponent implements OnInit {
 
   deletePost() {
     const headers = this.authHeader;
-    return this.http.delete<number>(this.baseUrl + 'thread/delete-post/' + this.post?.id, {headers}).pipe().subscribe({
+    return this.http.delete<number>(this.baseUrl + '/thread/delete-post/' + this.post?.id, {headers}).pipe().subscribe({
       next: _ => this.postDeleted.emit(),
       error: err => console.log(err)
     })
