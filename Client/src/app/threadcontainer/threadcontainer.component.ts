@@ -62,7 +62,7 @@ export class ThreadcontainerComponent implements OnInit, AfterViewInit {
 
   getThreadLength() {
     const headers = this.authHeader;
-    return this.http.get<number>(this.baseUrl + '/thread/thread-length/' + this.post?.id, {headers}).subscribe({
+    return this.http.get<number>(this.baseUrl + 'thread/thread-length/' + this.post?.id, {headers}).subscribe({
       next: length => this.threadLength = length,
       error: err => console.log(err)
     })
@@ -73,7 +73,7 @@ export class ThreadcontainerComponent implements OnInit, AfterViewInit {
 
   async getThread(id: number) {
     const headers = this.authHeader;
-    return await this.http.get<Post[]>(this.baseUrl + '/thread/' + id, {headers}).subscribe({
+    return await this.http.get<Post[]>(this.baseUrl + 'thread/' + id, {headers}).subscribe({
       next: posts => {
         if(id == 0){
           this.posts = posts;
@@ -93,7 +93,7 @@ export class ThreadcontainerComponent implements OnInit, AfterViewInit {
 
   async getPost(id: number, getThread: boolean = false){
     const headers = this.authHeader;
-    return await this.http.get<Post>(this.baseUrl + '/thread/post/' + id, {headers}).subscribe({
+    return await this.http.get<Post>(this.baseUrl + 'thread/post/' + id, {headers}).subscribe({
       next: res => {
         if(this.post){
           this.addComponent(res, true, getThread);

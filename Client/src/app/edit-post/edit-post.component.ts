@@ -45,7 +45,7 @@ export class EditPostComponent implements OnInit {
   submitPost(){
     console.log(this.model);
     const headers = this.authHeader;
-    return this.http.put<number>(this.baseUrl + '/thread/edit-post', this.model, {headers}).pipe().subscribe({
+    return this.http.put<number>(this.baseUrl + 'thread/edit-post', this.model, {headers}).pipe().subscribe({
       next: res => console.log(res),
       error: err => console.log(err)
     })
