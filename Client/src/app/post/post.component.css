@@ -11,7 +11,16 @@ img{
     height: auto;
     width: 100%;
 }
-h3, p{
+h3{
+    color: whitesmoke;
+    padding: 10px;
+}
+.post-textarea{
+    width: 100%;
+    resize: none;
+}
+.post-paragraph{
+    white-space: pre-wrap;
     color: whitesmoke;
     padding: 10px;
 }
