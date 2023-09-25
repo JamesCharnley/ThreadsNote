@@ -10,5 +10,5 @@
     <app-create-post [post]="post" (cancelCreatePost)="cancelCreatePost()" (newPostCreated)="newPostCreated($event)"></app-create-post>
 </div>
 <div *ngIf="editPostActive" class="add-post-container">
-    <app-edit-post [post]="post" (cancelEditPost)="cancelEditPost()" (postEditComplete)="postEdited($event)"></app-edit-post>
+    <app-edit-post [post]="post" (cancelEditPost)="cancelEditPost()" (editSuccess)="updatePost($event)"></app-edit-post>
 </div>

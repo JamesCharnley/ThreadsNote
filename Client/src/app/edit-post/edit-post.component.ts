@@ -15,7 +15,7 @@ export class EditPostComponent implements OnInit {
   
   @Input() post: Post | undefined;
   @Output("cancelEditPost") cancelEditPostEmitter: EventEmitter<any> = new EventEmitter();
-  @Output("postEditComplete") newPostCreated: EventEmitter<any> = new EventEmitter();
+  @Output("editSuccess") editSuccessEmitter: EventEmitter<any> = new EventEmitter();
   
   model: any = {};
   user: User | undefined;
@@ -45,8 +45,8 @@ export class EditPostComponent implements OnInit {
   submitPost(){
     console.log(this.model);
     const headers = this.authHeader;
-    return this.http.put<number>(this.baseUrl + 'thread/edit-post', this.model, {headers}).pipe().subscribe({
-      next: res => console.log(res),
+    return this.http.put(this.baseUrl + 'thread/edit-post', this.model, {headers}).pipe().subscribe({
+      next: res => this.editSuccessEmitter.emit(this.model),
       error: err => console.log(err)
     })
   }

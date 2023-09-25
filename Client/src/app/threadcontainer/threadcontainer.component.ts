@@ -168,6 +168,10 @@ export class ThreadcontainerComponent implements OnInit, AfterViewInit {
     this.editPostActive = true;
   }
 
+  updatePost(post: Post){
+    this.post = post;
+    this.editPostActive = false;
+  }
   cancelCreatePost(){
     this.createPostActive = false;
   }
