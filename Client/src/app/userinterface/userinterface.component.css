@@ -23,10 +23,10 @@
         padding: 0;
         padding-top: 7vh;
     
-    
-    background-color: #0d0d13;
-    opacity: 0.8;
+        background: rgb(0,0,0);
+
     background-image:  repeating-radial-gradient( circle at 0 0, transparent 0, #0d0d13 15px ), repeating-linear-gradient( #07070755, #000000 );
+    
     }
 }
 .thread-display-body{
