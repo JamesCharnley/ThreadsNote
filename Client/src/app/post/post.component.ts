@@ -27,6 +27,8 @@ export class PostComponent implements OnInit {
   baseUrl = environment.apiUrl;
   user: User | undefined;
   authHeader = {'Authorization': ''};
+
+  deleteConfirmationActive: boolean = false;
   
   constructor(private accountService: AccountService, private http: HttpClient) { 
     this.accountService.currentUser$.pipe(take(1)).subscribe({
@@ -74,6 +76,14 @@ export class PostComponent implements OnInit {
 
   editPost(){
     this.editPostEmitter.emit();
+  }
+
+  deletePostPressed(){
+    if(this.deleteConfirmationActive){
+      this.deleteConfirmationActive = false;
+    }else{
+      this.deleteConfirmationActive = true;
+    }
   }
   
 }
