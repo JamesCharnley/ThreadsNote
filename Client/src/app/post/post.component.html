@@ -2,11 +2,11 @@
 <div class="post">
     <div class="top-action-container">
         <div>
-            <button id="pop-out-button" (click)="stepThreadBack()" type="button"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i></button>
+            <button class="action-button" (click)="stepThreadBack()" type="button"><i class="fa fa-arrow-left" aria-hidden="true"></i></button>
         </div>
-        <div class="action-buttons">
-            <button id="pop-out-button" (click)="popOutThread()" type="button"><i class="fa fa-clone" aria-hidden="true"></i></button>
-            <button id="pop-out-button" (click)="stepThreadForward()" type="button"><i class="fa fa-arrow-circle-right" aria-hidden="true"></i></button>
+        <div class="action-buttons-container">
+            <button class="action-button" (click)="popOutThread()" type="button"><i class="fa fa-clone" aria-hidden="true"></i></button>
+            <button class="action-button" (click)="stepThreadForward()" type="button"><i class="fa fa-arrow-right" aria-hidden="true"></i></button>
         </div>
     </div>
     <h3 class="post-title">{{post?.title}}</h3>
@@ -18,11 +18,20 @@
         <div class="action-buttons-bottom-left">
             <button class="expand-post-button" *ngIf="threadLength != 0" (click)="expandTogglePressed()" type="button">+{{threadLength}} posts</button>
         </div>
-        <div class="action-buttons">
-            <button id="add-post-button" (click)="deletePost()" type="button"><i class="fa fa-trash" aria-hidden="true"></i></button>
-            <button id="add-post-button" (click)="editPost()" type="button"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>
-            <button id="add-post-button" (click)="addPost()" type="button"><i class="fa fa-plus" aria-hidden="true"></i></button>
+        <div class="action-buttons-container">
+            <button class="action-button" (click)="deletePostPressed()" type="button"><i class="fa fa-trash" aria-hidden="true"></i></button>
+            <button class="action-button" (click)="editPost()" type="button"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button>
+            <button class="action-button" (click)="addPost()" type="button"><i class="fa fa-plus" aria-hidden="true"></i></button>
             <!--<label class="add-post-label" for="add-post-button"><i class="fa fa-plus" aria-hidden="true"></i></label>-->
+        </div>
+    </div>
+    <div *ngIf="deleteConfirmationActive" class="delete-confirm-container">
+        <div class="delete-confirm-box">
+            <h3 class="delete-confirm-header">Are you sure you want to delete this post?</h3>
+            <div class="delete-confirm-buttons-container">
+                <button class="delete-confirm-button" (click)="deletePost()" type="button">yes</button>
+                <button class="delete-confirm-button" (click)="deletePostPressed()" type="button">Cancel</button>
+            </div>
         </div>
     </div>
 </div>

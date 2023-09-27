@@ -22,7 +22,7 @@ export class CreatePostComponent implements OnInit {
   model: any = {};
   uploader: FileUploader | undefined;
   hasBaseDropZoneOver = false;
-  baseUrl = 'http://localhost:5085/';
+  baseUrl = environment.apiUrl;
   user: User | undefined;
   totalImages: number = 0;
 

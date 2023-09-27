@@ -114,7 +114,7 @@ namespace API.Controllers
         }
 
         [HttpPut("edit-post")]
-        public async Task<ActionResult<int>> EditPost(EditPostDto changes)
+        public async Task<ActionResult> EditPost(EditPostDto changes)
         {
             var user = await _userRepository.GetUserByUsernameAsync(User.GetUsername());
 

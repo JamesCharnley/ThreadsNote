@@ -3,10 +3,8 @@
     flex-direction: column;
     margin-left: auto;
     justify-content: center;
-    border-left-style: dashed;
-    border-left-color: whitesmoke;
     border-width: 1px;
-    background-color: transparent;
+    
 }
 .add-post-container{
     position: absolute;
@@ -16,4 +14,13 @@
     top: 25vh;
     left: 25vw;
 
+}
+.action-button{
+    border-style: none;
+    font-size: 25px;
+    color: whitesmoke;
+    justify-content: center;
+    padding: 0;
+    margin: 0;
+    background-color: transparent;
 }

@@ -8,7 +8,7 @@ import { User } from './_models/user';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'Client';
+  title = 'ThreadNotes';
 
   constructor(private accountService: AccountService) {}
   
